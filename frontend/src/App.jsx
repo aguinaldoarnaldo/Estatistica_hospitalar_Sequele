@@ -1,17 +1,9 @@
 import React from 'react';
-import AppRoutes from './routes/AppRoutes';
-import './index.css';
+import AppRoutes from './Routes/AppRoutes';
 
-/**
- * Main App Component
- * Serves as the entry point for the application UI.
- * Integrates the routing system.
- */
 function App() {
   return (
-    <div className="app-container">
-      <AppRoutes />
-    </div>
+    <AppRoutes />
   );
 }
 
