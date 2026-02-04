@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Input from '../../Components/UI/Input';
 import styles from './LoginPage.module.css';
@@ -12,9 +12,11 @@ const LoginPage = () => {
         formState: { errors }
     } = useForm();
 
+    const navigate = useNavigate();
+
     const onSubmit = (data) => {
         console.log('Login submitted:', data);
-        // Add login logic here
+        navigate('/home');
     };
 
     return (
@@ -35,13 +37,7 @@ const LoginPage = () => {
                             label="Email"
                             placeholder="Insira o seu email"
                             error={errors.email?.message}
-                            {...register("email", {
-                                required: "O email é obrigatório",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Endereço de email inválido"
-                                }
-                            })}
+                            {...register("email")}
                         />
                         <Input
                             id="password"
@@ -49,13 +45,7 @@ const LoginPage = () => {
                             label="Senha"
                             placeholder="Insira a sua senha"
                             error={errors.password?.message}
-                            {...register("password", {
-                                required: "A senha é obrigatória",
-                                minLength: {
-                                    value: 6,
-                                    message: "A senha deve ter pelo menos 6 caracteres"
-                                }
-                            })}
+                            {...register("password")}
                         />
 
                         <div className={styles.forgotPasswordContainer}>
