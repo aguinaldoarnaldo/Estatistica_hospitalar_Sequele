@@ -1,0 +1,100 @@
+/* Global CSS Variables and Palette */
+:root {
+    /* New User Palette */
+    /* 1. Azul (Principal) */
+    --color-blue-light: #E6F0FA;
+    --color-blue-medium: #4A90E2;
+    --color-blue-dark: #0D3B66;
+
+    /* 2. Branco */
+    --color-white: #FFFFFF;
+
+    /* 3. Verde (Status Positivo) */
+    --color-green-light: #DFF6E0;
+    --color-green-medium: #4CAF50;
+    --color-green-dark: #2E7D32;
+
+    /* 4. Vermelho (Alerta/Crítico) */
+    --color-red-light: #FDECEA;
+    --color-red-medium: #E74C3C;
+    --color-red-dark: #C0392B;
+
+    /* 5. Cinza (Neutros) */
+    --color-gray-light: #F5F5F5;
+    --color-gray-medium: #BDC3C7;
+    --color-gray-dark: #7F8C8D;
+
+    /* Semantic Mappings for backward compatibility/standard usage */
+    --primary-color: var(--color-blue-medium);
+    --primary-hover: var(--color-blue-dark);
+    --secondary-color: var(--color-green-medium);
+
+    --bg-color: var(--color-gray-light);
+    --card-bg: var(--color-white);
+
+    --text-main: var(--color-blue-dark);
+    --text-muted: var(--color-gray-dark);
+    --text-light: var(--color-gray-medium);
+    --text-white: var(--color-white);
+
+    --border-color: var(--color-gray-medium);
+    --error-color: var(--color-red-medium);
+    --success-color: var(--color-green-medium);
+
+    /* Typography */
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --font-title: 'Outfit', var(--font-family);
+
+    /* Spacing and Borders */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-title);
+    font-weight: 700;
+}
+
+button {
+    cursor: pointer;
+    font-family: var(--font-family);
+}
+
+input {
+    font-family: var(--font-family);
+}
+
+/* Global Transitions */
+a,
+button,
+input {
+    transition: all 0.2s ease;
+}
+
+/* Google Fonts Import Placeholder (Actual import should be in index.html for performance) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700&display=swap');
