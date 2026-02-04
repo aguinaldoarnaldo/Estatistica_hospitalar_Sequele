@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Input from '../../Components/UI/Input';
 import styles from './LoginPage.module.css';
 import heroImage from '../../assets/images/login-hero.jpg';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
@@ -14,7 +15,8 @@ const LoginPage = () => {
 
     const onSubmit = (data) => {
         console.log('Login submitted:', data);
-        // Add login logic here
+        // Simulate login success - Redirect to General Dashboard
+        navigate('/dashboard-geral');
     };
 
     return (
@@ -23,7 +25,7 @@ const LoginPage = () => {
             <div className={styles.formSection}>
                 <div className={styles.formContainer}>
                     <div className={styles.header}>
-                        
+
                         <h1 className={styles.title}>Bem-vindo de volta</h1>
                         <p className={styles.subtitle}>Por favor, insira os seus dados para entrar.</p>
                     </div>
@@ -66,8 +68,8 @@ const LoginPage = () => {
                             Entrar
                         </button>
                     </form>
-                            <div style={{textAlign:"center", fontSize:"9pt"}}><small>Criado Pela Conexio Viva</small></div>
-                 
+                    <div style={{ textAlign: "center", fontSize: "9pt" }}><small>Criado Pela Conexio Viva</small></div>
+
                 </div>
             </div>
 

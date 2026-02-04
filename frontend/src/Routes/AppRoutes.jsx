@@ -6,6 +6,7 @@ import NotFound from '../Pages/NotFound/NotFound';
 import ErrorPage from '../Pages/Error/ErrorPage';
 
 import LoginPage from '../Pages/Login/LoginPage';
+import GeneralDashboard from '../Pages/Dashboard/GeneralDashboard';
 
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
 
 
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard-geral" element={<GeneralDashboard />} />
 
         <Route path="/error" element={<ErrorPage />} />
         <Route path="*" element={<NotFound />} />
