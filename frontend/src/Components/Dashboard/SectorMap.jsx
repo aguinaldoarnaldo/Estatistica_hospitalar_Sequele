@@ -1,7 +1,10 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, Marker, Popup, Polygon, Tooltip } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icon missing in React Leaflet
+// We are using custom icons, but keeping this just in case
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -22,6 +25,32 @@ const icons = {
     Kifangondo: createIcon('green'),
     Funda: createIcon('red'),
     'Zona Baia': createIcon('gold')
+};
+
+// Labels for Sectors (Center points)
+const sectorLabels = [
+    { name: "SEQUELE", lat: -8.85500, lng: 13.46000 },
+    { name: "KIFANGONDO", lat: -8.76000, lng: 13.42500 },
+    { name: "FUNDA", lat: -8.84000, lng: 13.55000 },
+    { name: "ZONA BAIA", lat: -8.95500, lng: 13.48000 }
+];
+
+// Polygon for Cacuaco/Sequele Boundary (Approximate)
+const boundaryCoords = [
+    [-8.7500, 13.3800], // NW
+    [-8.7500, 13.4500], // N
+    [-8.8200, 13.5600], // NE (Funda)
+    [-8.9600, 13.5000], // SE
+    [-8.9600, 13.4000], // SW
+    [-8.8500, 13.3500]  // W
+];
+
+const boundaryStyle = {
+    color: '#E74C3C', // Red
+    weight: 2,
+    opacity: 1,
+    dashArray: '10, 10', // Dotted/Dashed line
+    fill: false // No fill, just outline
 };
 
 const hospitalData = [
@@ -49,14 +78,39 @@ const SectorMap = () => {
         <div style={{ height: '400px', width: '100%', borderRadius: '12px', overflow: 'hidden', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
             <MapContainer center={[-8.8500, 13.4800]} zoom={11} style={{ height: '100%', width: '100%' }}>
                 <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
                 />
+
+                {/* Sector Boundary */}
+                <Polygon positions={boundaryCoords} pathOptions={boundaryStyle} />
+
+                {/* Permanent Sector Labels */}
+                {sectorLabels.map((label, index) => (
+                    <Marker
+                        key={`label-${index}`}
+                        position={[label.lat, label.lng]}
+                        icon={L.divIcon({ className: 'hidden-icon', html: '' })} // Invisible marker
+                        opacity={0}
+                    >
+                        <Tooltip
+                            permanent
+                            direction="center"
+                            className="sector-label-tooltip"
+                        >
+                            <span style={{ fontWeight: 'bold', fontSize: '12px', color: '#2C3E50', textTransform: 'uppercase' }}>
+                                {label.name}
+                            </span>
+                        </Tooltip>
+                    </Marker>
+                ))}
+
+                {/* Hospital Markers */}
                 {hospitalData.map((hospital, index) => (
                     <Marker
                         key={index}
                         position={[hospital.lat, hospital.lng]}
-                        icon={icons[hospital.sector] || icons['Sequele']} // Default to Sequele (Blue) if sector not matched
+                        icon={icons[hospital.sector] || icons['Sequele']}
                     >
                         <Popup>
                             <strong>{hospital.name}</strong><br />
@@ -66,6 +120,17 @@ const SectorMap = () => {
                     </Marker>
                 ))}
             </MapContainer>
+
+            {/* Styles for the transparent tooltip */}
+            <style>
+                {`
+                    .leaflet-tooltip.sector-label-tooltip {
+                        background-color: transparent;
+                        border: none;
+                        box-shadow: none;
+                    }
+                `}
+            </style>
         </div>
     );
 };

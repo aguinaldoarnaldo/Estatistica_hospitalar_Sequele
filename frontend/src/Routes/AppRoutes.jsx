@@ -19,11 +19,10 @@ const AppRoutes = () => {
 
         {/* Rota de Login explícita */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard-geral" element={<GeneralDashboard />} />
-
         {/* Rotas Protegidas com Layout */}
         <Route element={<MainLayout />}>
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/dashboard-geral" element={<GeneralDashboard />} />
+          <Route path="/home" element={<GeneralDashboard />} />
           <Route path="/cacuaco/dados" element={<ComunaPage titleOverride="Dados da Comuna de Cacuaco" />} />
           <Route path="/cacuaco/hospital-municipal" element={<ComunaPage titleOverride="Hospital Municipal de Cacuaco" />} />
           <Route path="/cacuaco/hospital-referencia" element={<ComunaPage titleOverride="Hospital de Referência" />} />
