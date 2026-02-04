@@ -1,6 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
+import NotFound from '../pages/NotFound/NotFound';
+import ErrorPage from '../pages/Error/ErrorPage';
+import LoginPage from '../pages/Login/LoginPage';
+import MainLayout from '../Components/Layout/MainLayout';
+import HomePage from '../pages/Home/HomePage';
+import PagePlaceholder from '../pages/PagePlaceholder';
 // Importando páginas com caminhos absolutos relativos a src para evitar erro de casing
 import LoginPage from '../pages/Login/LoginPage';
 import HomePage from '../pages/Home/HomePage';
@@ -14,6 +20,30 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/error" element={<ErrorPage />} />
+
+        {/* Protected Dashboard Routes - Municipio do Sequele (Icolo e Bengo) */}
+        <Route element={<MainLayout />}>
+          <Route path="/home" element={<HomePage />} />
+          
+          {/* Sequele */}
+          <Route path="/sequele/dados" element={<PagePlaceholder title="Estatísticas do Município do Sequele" />} />
+          <Route path="/sequele/unidades" element={<PagePlaceholder title="Unidades Sanitárias do Sequele" />} />
+
+          {/* Cadastros */}
+          <Route path="/cadastros/comunas" element={<PagePlaceholder title="Gestão de Comunas" />} />
+          <Route path="/cadastros/unidades" element={<PagePlaceholder title="Gestão de Unidades Hospitalares" />} />
+          <Route path="/cadastros/periodos" element={<PagePlaceholder title="Gestão de Períodos (Anos, Meses, Trimestres)" />} />
+          <Route path="/cadastros/usuarios-acessos" element={<PagePlaceholder title="Segurança: Usuários e Acessos" />} />
+
+          {/* Settings */}
+          <Route path="/settings" element={<PagePlaceholder title="Configurações do Sistema" />} />
+        </Route>
+
+        {/* Fallback */}
         {/* Rota Raiz vai direto para o Login */}
         <Route path="/" element={<LoginPage />} />
         
