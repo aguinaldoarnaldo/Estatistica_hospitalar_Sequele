@@ -25,7 +25,6 @@ const LoginPage = () => {
             <div className={styles.formSection}>
                 <div className={styles.formContainer}>
                     <div className={styles.header}>
-
                         <h1 className={styles.title}>Bem-vindo de volta</h1>
                         <p className={styles.subtitle}>Por favor, insira os seus dados para entrar.</p>
                     </div>
@@ -33,17 +32,11 @@ const LoginPage = () => {
                     <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                         <Input
                             id="email"
-                            type="email"
+                            type="text"
                             label="Email"
                             placeholder="Insira o seu email"
                             error={errors.email?.message}
-                            {...register("email", {
-                                required: "O email é obrigatório",
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Endereço de email inválido"
-                                }
-                            })}
+                            {...register("email")}
                         />
                         <Input
                             id="password"
@@ -51,13 +44,7 @@ const LoginPage = () => {
                             label="Senha"
                             placeholder="Insira a sua senha"
                             error={errors.password?.message}
-                            {...register("password", {
-                                required: "A senha é obrigatória",
-                                minLength: {
-                                    value: 6,
-                                    message: "A senha deve ter pelo menos 6 caracteres"
-                                }
-                            })}
+                            {...register("password")}
                         />
 
                         <div className={styles.forgotPasswordContainer}>
@@ -68,8 +55,10 @@ const LoginPage = () => {
                             Entrar
                         </button>
                     </form>
-                    <div style={{ textAlign: "center", fontSize: "9pt" }}><small>Criado Pela Conexio Viva</small></div>
 
+                    <div className={styles.footer}>
+                        <small>Criado Pela Conexio Viva</small>
+                    </div>
                 </div>
             </div>
 
@@ -82,9 +71,10 @@ const LoginPage = () => {
                     <p className={styles.imageSubtitle}>
                         Faça login para monitorar stock, serviços, equipa e operações diárias num sistema centralizado e seguro.
                     </p>
+
                     <div className={styles.trustBadge}>
-                        <span className={styles.stars}>★★★★★</span>
-                        <span className={styles.trustText}>Confiado por equipas de saúde</span>
+                        <div className={styles.stars}>★★★★★</div>
+                        <div className={styles.trustText}>Confiado por equipas de saúde</div>
                         <div className={styles.trustSubtext}>Um sistema seguro e confiavel para ajudar você!</div>
                     </div>
                 </div>
