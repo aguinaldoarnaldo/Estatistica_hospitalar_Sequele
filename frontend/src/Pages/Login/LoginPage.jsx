@@ -6,18 +6,17 @@ import styles from './LoginPage.module.css';
 import heroImage from '../../assets/images/login-hero.jpg';
 
 const LoginPage = () => {
+    const navigate = useNavigate();
     const {
         register,
         handleSubmit,
         formState: { errors }
     } = useForm();
 
-    const navigate = useNavigate();
-
     const onSubmit = (data) => {
         console.log('Login submitted:', data);
-        // Temporary: any data logs in
-        navigate('/home');
+        // Simulate login success - Redirect to General Dashboard
+        navigate('/dashboard-geral');
     };
 
     return (
@@ -56,7 +55,7 @@ const LoginPage = () => {
                             Entrar
                         </button>
                     </form>
-                    
+
                     <div className={styles.footer}>
                         <small>Criado Pela Conexio Viva</small>
                     </div>
@@ -72,7 +71,7 @@ const LoginPage = () => {
                     <p className={styles.imageSubtitle}>
                         Faça login para monitorar stock, serviços, equipa e operações diárias num sistema centralizado e seguro.
                     </p>
-                    
+
                     <div className={styles.trustBadge}>
                         <div className={styles.stars}>★★★★★</div>
                         <div className={styles.trustText}>Confiado por equipas de saúde</div>
