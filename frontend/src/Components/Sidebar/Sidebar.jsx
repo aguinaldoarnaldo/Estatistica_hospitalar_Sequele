@@ -15,44 +15,51 @@ import {
   FiLock 
 } from 'react-icons/fi';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useComunas } from '../../context/ComunaContext';
 import styles from './Sidebar.module.css';
-
-const MENU_ITEMS = [
-  {
-    title: 'Home',
-    icon: <FiHome />,
-    path: '/home',
-  },
-  {
-    title: 'Comunas do Sequele',
-    icon: <FiMapPin />,
-    children: [
-      { title: 'Dados do Município', icon: <FiBarChart2 />, path: '/sequele/dados' },
-      { title: 'Unidades Hospitalares', icon: <FiActivity />, path: '/sequele/unidades' },
-    ]
-  },
-  {
-    title: 'Cadastros',
-    icon: <FiList />,
-    children: [
-      { title: 'Comunas', icon: <FiMapPin />, path: '/cadastros/comunas' },
-      { title: 'Unidades Hospitalares', icon: <FiActivity />, path: '/cadastros/unidades' },
-      { title: 'Anos, Meses e Trimestres', icon: <FiCalendar />, path: '/cadastros/periodos' },
-      { title: 'Usuários e Acessos', icon: <FiUsers />, path: '/cadastros/usuarios-acessos' },
-    ]
-  },
-  {
-    title: 'Configurações',
-    icon: <FiSettings />,
-    path: '/settings',
-  },
-];
 
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openMenus, setOpenMenus] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
+  const { comunas } = useComunas(); // Hook para pegar as comunas cadastradas
+
+  const MENU_ITEMS = [
+    {
+      title: 'Home',
+      icon: <FiHome />,
+      path: '/home',
+    },
+    {
+      title: 'Comunas do Sequele',
+      icon: <FiMapPin />,
+      children: [
+        { title: 'Painel Geral', icon: <FiBarChart2 />, path: '/sequele/dados' },
+        // Mapeia dinamicamente as comunas cadastradas
+        ...comunas.map(c => ({
+          title: c.nome,
+          icon: <FiActivity />,
+          path: `/sequele/comuna/${c.id}`
+        }))
+      ]
+    },
+    {
+      title: 'Cadastros',
+      icon: <FiList />,
+      children: [
+        { title: 'Comunas', icon: <FiMapPin />, path: '/cadastros/comunas' },
+        { title: 'Unidades Hospitalares', icon: <FiActivity />, path: '/cadastros/unidades' },
+        { title: 'Anos, Meses e Trimestres', icon: <FiCalendar />, path: '/cadastros/periodos' },
+        { title: 'Usuários e Acessos', icon: <FiUsers />, path: '/cadastros/usuarios-acessos' },
+      ]
+    },
+    {
+      title: 'Configurações',
+      icon: <FiSettings />,
+      path: '/settings',
+    },
+  ];
 
   const handleLogout = () => {
     navigate('/login');
@@ -102,7 +109,8 @@ const Sidebar = () => {
                     className={`${styles.submenuItem} ${location.pathname === child.path ? styles.subActive : ''}`}
                     onClick={() => navigate(child.path)}
                   >
-                    {child.title}
+                    {child.icon && <div className={styles.submenuIcon}>{child.icon}</div>}
+                    <span className={styles.submenuLabel}>{child.title}</span>
                   </li>
                 ))}
               </ul>
