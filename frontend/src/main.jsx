@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { ComunaProvider } from './context/ComunaContext'
 import { UnidadeProvider } from './context/UnidadeContext'
 import './assets/style.global.css'
-import './index.css'
 import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(

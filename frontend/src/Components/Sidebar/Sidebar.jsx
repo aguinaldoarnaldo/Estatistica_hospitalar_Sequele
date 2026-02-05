@@ -66,14 +66,20 @@ const Sidebar = () => {
   };
 
   const toggleMenu = (title) => {
-    setOpenMenus(prev => ({
-      ...prev,
-      [title]: !prev[title]
-    }));
+    if (isCollapsed) {
+      setIsCollapsed(false);
+      setOpenMenus({ [title]: true });
+    } else {
+      setOpenMenus(prev => ({
+        ...prev,
+        [title]: !prev[title]
+      }));
+    }
   };
 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded}`}>
+      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerInfo}>
           <span className={styles.title}>Dir. Municipal do Sequele</span>
