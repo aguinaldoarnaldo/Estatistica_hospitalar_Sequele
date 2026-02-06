@@ -13,7 +13,26 @@ const ComunaDetails = () => {
     const comuna = comunas.find(c => c.id === Number(id));
     const unidadesDaComuna = unidades.filter(u => u.comuna === comuna?.nome);
 
-    if (!comuna) return <div>Comuna não encontrada</div>;
+    console.log('--- Debug ComunaDetails ---');
+    console.log('Param ID:', id);
+    console.log('All Comunas:', comunas);
+    console.log('Found Comuna:', comuna);
+    console.log('All Unidades:', unidades);
+    console.log('Filtered Unidades:', unidadesDaComuna);
+
+    if (!comuna) {
+        console.error('Comuna not found for ID:', id);
+        return (
+            <div style={{ padding: '40px', textAlign: 'center' }}>
+                <h2 style={{ color: 'red' }}>Erro: Comuna não encontrada (ID: {id})</h2>
+                <p>Comunas disponíveis: {comunas.map(c => c.id).join(', ')}</p>
+            </div>
+        );
+    }
+
+    if (!unidades) {
+        return <div>Carregando unidades...</div>;
+    }
 
     return (
         <div style={{ padding: '30px', backgroundColor: '#f8fafc', minHeight: '100vh' }}>

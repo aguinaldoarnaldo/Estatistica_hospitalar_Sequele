@@ -17,3 +17,29 @@ body {
   width: 100%;
   min-height: 100vh;
 }
+
+@media print {
+
+  .no-print,
+  aside,
+  .sidebar {
+    display: none !important;
+  }
+
+  body {
+    background-color: white;
+  }
+
+  /* Ensure main content takes full width */
+  #root>div {
+    display: block !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Specific fix for Sidebar layout container if needed */
+  main {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
