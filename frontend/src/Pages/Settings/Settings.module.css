@@ -1,0 +1,92 @@
+/* Settings.module.css */
+
+/* O container principal (tag main) */
+.main {
+  display: flex;
+  height: 100%; /* Ocupa a altura total da tela */
+  width: 100%;
+  background-color: #f3f4f6; 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow: hidden; /* Evita rolagem dupla */
+  padding: 0px;
+  margin: 0px;
+}
+.main .screen{
+  margin: 0px;
+}
+/* --- Barra Lateral (SideBar) --- */
+.SideBar {
+  width: 260px;
+  background-color: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column; /* Coloca os botões um embaixo do outro */
+  gap: 10px; /* Espaço entre os botões */
+  box-shadow: 2px 0 5px rgba(0,0,0,0.02);
+  z-index: 10;
+}
+
+/* Estilizando os botões DENTRO da SideBar */
+.SideBar button {
+  padding: 14px 16px;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  font-size: 0.95rem;
+  color: #4b5563; /* Cinza escuro */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+/* Efeito ao passar o mouse */
+.SideBar button:hover {
+  background-color: #f9fafb;
+  color: #111827;
+  transform: translateX(5px); /* Leve movimento para a direita */
+}
+
+/* Simulando o botão "Ativo" usando o foco (quando clica) 
+   Nota: Como não podemos mudar o JSX para ter classe .active, 
+   o focus ajuda a saber onde clicou */
+.SideBar button:focus {
+  background-color: #e0e7ff; /* Azul claro */
+  color: #4f46e5; /* Azul forte */
+  outline: none;
+  font-weight: 600;
+}
+
+/* --- Área de Conteúdo (screen) --- */
+.screen {
+  flex: 1; /* Ocupa todo o espaço restante */
+  padding: 40px;
+  overflow-y: auto; /* Permite rolar apenas o conteúdo, mantendo a sidebar fixa */
+  background-color: #f8f9fa;
+}
+
+/* --- Responsividade (Mobile) --- */
+@media (max-width: 768px) {
+  main {
+    flex-direction: column; /* Em celulares, fica um em cima do outro */
+  }
+
+  .SideBar {
+    width: 100%;
+    height: auto;
+    flex-direction: row; /* Botões lado a lado */
+    overflow-x: auto; /* Scroll horizontal */
+    padding: 15px;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+  }
+
+  .SideBar button {
+    padding: 10px 15px;
+    margin-right: 5px;
+    background-color: #f3f4f6; /* Fundo cinza nos botões mobile */
+  }
+ 
+}
