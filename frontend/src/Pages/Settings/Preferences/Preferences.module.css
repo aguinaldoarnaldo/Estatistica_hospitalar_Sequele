@@ -1,0 +1,133 @@
+/* Preferences.module.css */
+
+.container {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+  padding: 32px;
+  max-width: 600px; /* Limita a largura para não ficar muito esticado */
+  font-family: 'Inter', sans-serif;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #6b7280;
+  font-size: 0.95rem;
+  margin-bottom: 32px;
+}
+
+/* --- Seções (Ex: Aparência, Notificações) --- */
+.section {
+  margin-bottom: 32px;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 24px;
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.sectionTitle {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* --- Linha de Opção --- */
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.labelGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.labelText {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #374151;
+}
+
+.labelDesc {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-top: 4px;
+}
+
+/* --- Componente Toggle Switch (O botão de ligar/desligar) --- */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 28px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb; /* Cor desligado */
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Estado Ligado (Checked) */
+.switch input:checked + .slider {
+  background-color: #4f46e5; /* Azul Indigo */
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(22px);
+}
+
+/* --- Select Dropdown --- */
+.select {
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  background-color: #fff;
+  color: #374151;
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.select:focus {
+  border-color: #4f46e5;
+}
