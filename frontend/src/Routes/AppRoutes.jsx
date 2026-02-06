@@ -25,8 +25,8 @@ const AppRoutes = () => {
 
         {/* Protected Dashboard Routes */}
         <Route element={<MainLayout />}>
-          <Route path="/home" element={<HomePage />} />
-          
+          <Route path="/home" element={<GeneralDashboard />} />
+
           {/* Sequele */}
           <Route path="/sequele/dados" element={<PagePlaceholder title="Estatísticas do Município do Sequele" />} />
           <Route path="/sequele/unidades" element={<PagePlaceholder title="Unidades Sanitárias do Sequele" />} />
