@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
-import { 
-  FiHome, 
-  FiMapPin, 
-  FiBarChart2, 
+import {
+  FiHome,
+  FiMapPin,
+  FiBarChart2,
   FiActivity,
   FiUsers,
-  FiList, 
-  FiSettings, 
-  FiChevronDown, 
-  FiLogOut, 
-  FiUser, 
-  FiMenu, 
-  FiCalendar, 
-  FiLock 
+  FiList,
+  FiSettings,
+  FiChevronDown,
+  FiLogOut,
+  FiUser,
+  FiMenu,
+  FiCalendar
 } from 'react-icons/fi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useComunas } from '../../context/ComunaContext';
+import { useUnidades } from '../../context/UnidadeContext';
 import styles from './Sidebar.module.css';
 
 const Sidebar = () => {
@@ -23,7 +23,17 @@ const Sidebar = () => {
   const [openMenus, setOpenMenus] = useState({});
   const navigate = useNavigate();
   const location = useLocation();
-  const { comunas } = useComunas(); // Hook para pegar as comunas cadastradas
+  const { comunas } = useComunas();
+  const { unidades } = useUnidades();
+
+  // Helper to check if a menu or any of its children is active
+  const isItemActive = (item) => {
+    if (item.path === location.pathname) return true;
+    if (item.children) {
+      return item.children.some(child => isItemActive(child));
+    }
+    return false;
+  };
 
   const MENU_ITEMS = [
     {
@@ -31,19 +41,22 @@ const Sidebar = () => {
       icon: <FiHome />,
       path: '/home',
     },
-    {
-      title: 'Comunas do Sequele',
-      icon: <FiMapPin />,
-      children: [
-        { title: 'Painel Geral', icon: <FiBarChart2 />, path: '/sequele/dados' },
-        // Mapeia dinamicamente as comunas cadastradas
-        ...comunas.map(c => ({
-          title: c.nome,
-          icon: <FiActivity />,
-          path: `/sequele/comuna/${c.id}`
-        }))
-      ]
-    },
+    // Seção de Cabeçalho (Opcional, ou apenas listar as comunas diretas)
+    ...comunas.map(c => {
+      const unidadesDaComuna = unidades.filter(u => u.comuna === c.nome);
+      return {
+        title: `Comuna do ${c.nome}`,
+        icon: <FiMapPin />,
+        children: [
+          { title: 'Visão Geral', path: `/sequele/comuna/${c.id}`, icon: <FiActivity /> },
+          ...unidadesDaComuna.map(u => ({
+            title: u.nome,
+            path: `/sequele/unidade/${u.id}`,
+            icon: <FiActivity />
+          }))
+        ]
+      };
+    }),
     {
       title: 'Cadastros',
       icon: <FiList />,
@@ -66,20 +79,65 @@ const Sidebar = () => {
   };
 
   const toggleMenu = (title) => {
-    if (isCollapsed) {
-      setIsCollapsed(false);
-      setOpenMenus({ [title]: true });
-    } else {
-      setOpenMenus(prev => ({
-        ...prev,
-        [title]: !prev[title]
-      }));
+    if (isCollapsed) setIsCollapsed(false);
+    setOpenMenus(prev => ({
+      ...prev,
+      [title]: !prev[title]
+    }));
+  };
+
+  // Recursive menu renderer
+  const renderMenuItem = (item, level = 0) => {
+    const hasChildren = item.children && item.children.length > 0;
+    const isOpen = openMenus[item.title];
+    const isActive = isItemActive(item);
+
+    // Choose style based on level
+    let itemClass = styles.menuItem;
+    if (level === 1) itemClass = styles.submenuItem;
+    if (level === 2) itemClass = styles.subSubmenuItem;
+
+    if (isActive && !hasChildren) {
+      if (level === 0) itemClass = `${itemClass} ${styles.active}`;
+      else itemClass = `${itemClass} ${styles.subActive}`;
     }
+
+    return (
+      <li key={item.title} className={isOpen ? styles.open : ''}>
+        <div
+          className={itemClass}
+          onClick={() => {
+            if (hasChildren) {
+              toggleMenu(item.title);
+            } else if (item.path) {
+              navigate(item.path);
+            }
+          }}
+          style={{ paddingLeft: `${1 + (level * 0.6)}rem` }} // Manual indent fallback
+        >
+          {item.icon && <div className={styles.iconWrapper} style={{ fontSize: level > 0 ? '1rem' : '1.25rem' }}>{item.icon}</div>}
+
+          {!isCollapsed && <span className={styles.label}>{item.title}</span>}
+
+          {!isCollapsed && hasChildren && (
+            <FiChevronDown
+              className={styles.arrowIcon}
+              style={{ transform: isOpen ? 'rotate(180deg)' : 'none', marginLeft: 'auto' }}
+            />
+          )}
+        </div>
+
+        {!isCollapsed && hasChildren && isOpen && (
+          <ul className={level === 0 ? styles.submenu : styles.subSubmenu}>
+            {item.children.map(child => renderMenuItem(child, level + 1))}
+          </ul>
+        )}
+      </li>
+    );
   };
 
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : styles.expanded}`}>
-      {/* Header */}
       <div className={styles.header}>
         <div className={styles.headerInfo}>
           <span className={styles.title}>Dir. Municipal do Sequele</span>
@@ -91,38 +149,7 @@ const Sidebar = () => {
       </div>
 
       <ul className={styles.menuList}>
-        {MENU_ITEMS.map((item, index) => (
-          <li key={index} className={item.children && openMenus[item.title] ? styles.open : ''}>
-            <div 
-              className={`${styles.menuItem} ${location.pathname === item.path || (item.children && item.children.some(c => location.pathname === c.path)) ? styles.active : ''}`}
-              onClick={() => item.children ? toggleMenu(item.title) : navigate(item.path)}
-            >
-              <div className={styles.iconWrapper}>{item.icon}</div>
-              {!isCollapsed && <span className={styles.label}>{item.title}</span>}
-              {!isCollapsed && item.children && (
-                <FiChevronDown 
-                  className={styles.arrowIcon} 
-                  style={{ transform: openMenus[item.title] ? 'rotate(180deg)' : 'none' }} 
-                />
-              )}
-            </div>
-
-            {!isCollapsed && item.children && openMenus[item.title] && (
-              <ul className={styles.submenu}>
-                {item.children.map((child, idx) => (
-                  <li 
-                    key={idx} 
-                    className={`${styles.submenuItem} ${location.pathname === child.path ? styles.subActive : ''}`}
-                    onClick={() => navigate(child.path)}
-                  >
-                    {child.icon && <div className={styles.submenuIcon}>{child.icon}</div>}
-                    <span className={styles.submenuLabel}>{child.title}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
+        {MENU_ITEMS.map(item => renderMenuItem(item))}
       </ul>
 
       <div className={styles.sidebarFooter}>

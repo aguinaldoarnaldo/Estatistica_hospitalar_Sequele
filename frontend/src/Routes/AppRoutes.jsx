@@ -32,13 +32,16 @@ const AppRoutes = () => {
           <Route path="/sequele/dados" element={<PagePlaceholder title="Estatísticas do Município do Sequele" />} />
           <Route path="/sequele/unidades" element={<PagePlaceholder title="Unidades Sanitárias do Sequele" />} />
           {/* Rota dinâmica para cada comuna */}
-          <Route path="/sequele/comuna/:id" element={<PagePlaceholder title="Detalhes da Comuna" />} />
+          <Route path="/sequele/comuna/:id" element={<ComunaDetails />} />
+
+          {/* Dashboard Individual do Hospital */}
+          <Route path="/sequele/unidade/:id" element={<HospitalDashboard />} />
 
           {/* Cadastros */}
           <Route path="/cadastros/comunas" element={<ComunasPage />} />
           <Route path="/cadastros/unidades" element={<UnidadesPage />} />
           <Route path="/cadastros/periodos" element={<PagePlaceholder title="Gestão de Períodos (Anos, Meses, Trimestres)" />} />
-          <Route path="/cadastros/usuarios-acessos" element={<PagePlaceholder title="Segurança: Usuários e Acessos" />} />
+          <Route path="/cadastros/usuarios-acessos" element={<UsuariosAcessosPage />} />
           <Route path="/cadastros/funcionarios" element={<FuncionariosPage />} />
           <Route path="/cadastros/pacientes" element={<PacientesPage />} />
 

@@ -6,7 +6,9 @@ export const ComunaProvider = ({ children }) => {
   // Initial demo data
   const [comunas, setComunas] = useState([
     { id: 1, nome: 'Sequele', populacao: '120.000', descricao: 'Zona residencial principal' },
-    { id: 2, nome: 'Bengo', populacao: '45.000', descricao: 'Zona de expansão' }
+    { id: 2, nome: 'Kifangondo', populacao: '45.000', descricao: 'Zona industrial e residencial' },
+    { id: 3, nome: 'Funda', populacao: '30.000', descricao: 'Área rural e agrícola' },
+    { id: 4, nome: 'Zona Baia', populacao: '25.000', descricao: 'Zona em desenvolvimento' }
   ]);
 
   const addComuna = (novaComuna) => {
