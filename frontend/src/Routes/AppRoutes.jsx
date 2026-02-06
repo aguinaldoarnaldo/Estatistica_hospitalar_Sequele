@@ -13,6 +13,7 @@ import ComunaPage from '../pages/Comuna/ComunaPage';
 import FuncionariosPage from '../pages/cadastros/FuncionariosPage';
 import PacientesPage from '../pages/cadastros/PacientesPage';
 import GeneralDashboard from '../pages/Dashboard/GeneralDashboard';
+import UsuariosAcessosPage from '../pages/cadastros/UsuariosAcessosPage';
 
 const AppRoutes = () => {
   return (
@@ -25,7 +26,7 @@ const AppRoutes = () => {
 
         {/* Protected Dashboard Routes */}
         <Route element={<MainLayout />}>
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/home" element={<GeneralDashboard />} />
           
           {/* Sequele */}
           <Route path="/sequele/dados" element={<PagePlaceholder title="Estatísticas do Município do Sequele" />} />
@@ -37,7 +38,7 @@ const AppRoutes = () => {
           <Route path="/cadastros/comunas" element={<ComunasPage />} />
           <Route path="/cadastros/unidades" element={<UnidadesPage />} />
           <Route path="/cadastros/periodos" element={<PagePlaceholder title="Gestão de Períodos (Anos, Meses, Trimestres)" />} />
-          <Route path="/cadastros/usuarios-acessos" element={<PagePlaceholder title="Segurança: Usuários e Acessos" />} />
+          <Route path="/cadastros/usuarios-acessos" element={<UsuariosAcessosPage />} />
           <Route path="/cadastros/funcionarios" element={<FuncionariosPage />} />
           <Route path="/cadastros/pacientes" element={<PacientesPage />} />
 
