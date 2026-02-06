@@ -3,7 +3,7 @@
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #f8fafc; /* Slate-50 */
+  background-color: #f8fafc;
 }
 
 .content {
@@ -24,6 +24,7 @@
 
 @media (max-width: 768px) {
   .main {
+    padding: 1.25rem;
     padding: 1rem;
   }
 }
