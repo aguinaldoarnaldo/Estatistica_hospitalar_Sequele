@@ -18,6 +18,72 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useComunas } from '../../context/ComunaContext';
 import styles from './Sidebar.module.css';
 
+const MENU_ITEMS = [
+  {
+    title: 'Home',
+    icon: <FiHome />,
+    path: '/home',
+  },
+  {
+    title: 'Comuna do Sequele',
+    icon: <FiMapPin />,
+    children: [
+      { title: 'Vila Verde Cativa', icon: <FiActivity />, path: '/sequele/vila-verde-cativa' },
+      { title: 'Centro de Saúde R Sequele', icon: <FiActivity />, path: '/sequele/centro-saude-r-sequele' },
+      { title: 'Posto de Saúde do Mulundo', icon: <FiActivity />, path: '/sequele/posto-saude-mulundo' },
+    ]
+  },
+  {
+    title: 'Comuna de Kifangondo',
+    icon: <FiMapPin />,
+    children: [
+      { title: 'Centro de Saúde 22 de Janeiro', icon: <FiActivity />, path: '/kifangondo/centro-saude-22-janeiro' },
+      { title: 'Posto de Saúde da Kaop Velha Sul', icon: <FiActivity />, path: '/kifangondo/posto-saude-kaop-velha-sul' },
+      { title: 'Centro de Saúde Alto Kifangondo', icon: <FiActivity />, path: '/kifangondo/centro-saude-alto-kifangondo' },
+    ]
+  },
+  {
+    title: 'Comuna da Funda',
+    icon: <FiMapPin />,
+    children: [
+      { title: 'Centro Materno Infantil da Funda', icon: <FiActivity />, path: '/funda/centro-materno-infantil' },
+      { title: 'Posto de Saúde da Kilunda', icon: <FiActivity />, path: '/funda/posto-saude-kilunda' },
+    ]
+  },
+  {
+    title: 'Zona Baia',
+    icon: <FiMapPin />,
+    children: [
+      { title: 'Centro KM30', icon: <FiActivity />, path: '/zona-baia/centro-km30' },
+      { title: 'Posto de Saúde Dimba', icon: <FiActivity />, path: '/zona-baia/posto-saude-dimba' },
+    ]
+  },
+  {
+    title: 'Outras Comunas',
+    icon: <FiMapPin />,
+    children: [
+       { title: 'Comuna de Cacuaco', icon: <FiMapPin />, path: '/cacuaco/dados' },
+       { title: 'Comuna de Kikolo', icon: <FiMapPin />, path: '/kikolo/dados' },
+    ]
+  },
+  {
+    title: 'Cadastros',
+    icon: <FiList />,
+    children: [
+      { title: 'Comunas', icon: <FiMapPin />, path: '/cadastros/comunas' },
+      { title: 'Unidades Sanitárias', icon: <FiActivity />, path: '/cadastros/unidades' },
+      { title: 'Funcionários', icon: <FiUsers />, path: '/cadastros/funcionarios' },
+      { title: 'Pacientes', icon: <FiUsers />, path: '/cadastros/pacientes' },
+      { title: 'Usuários e Acessos', icon: <FiUser />, path: '/cadastros/usuarios-acessos' },
+    ]
+  },
+  {
+    title: 'Configurações',
+    icon: <FiSettings />,
+    path: '/settings',
+  },
+];
+
 const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [openMenus, setOpenMenus] = useState({});
