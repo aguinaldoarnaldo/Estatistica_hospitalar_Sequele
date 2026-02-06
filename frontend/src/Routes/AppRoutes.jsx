@@ -9,7 +9,8 @@ import HomePage from '../pages/Home/HomePage';
 import ComunasPage from '../pages/cadastros/ComunasPage';
 import UnidadesPage from '../pages/cadastros/UnidadesPage';
 import PagePlaceholder from '../pages/PagePlaceholder';
-import ComunaPage from '../pages/Comuna/ComunaPage';
+import ComunaDetails from '../pages/Comuna/ComunaDetails';
+import HospitalDashboard from '../pages/Dashboard/HospitalDashboard';
 import FuncionariosPage from '../pages/cadastros/FuncionariosPage';
 import PacientesPage from '../pages/cadastros/PacientesPage';
 import GeneralDashboard from '../pages/Dashboard/GeneralDashboard';
@@ -32,7 +33,10 @@ const AppRoutes = () => {
           <Route path="/sequele/dados" element={<PagePlaceholder title="Estatísticas do Município do Sequele" />} />
           <Route path="/sequele/unidades" element={<PagePlaceholder title="Unidades Sanitárias do Sequele" />} />
           {/* Rota dinâmica para cada comuna */}
-          <Route path="/sequele/comuna/:id" element={<PagePlaceholder title="Detalhes da Comuna" />} />
+          <Route path="/sequele/comuna/:id" element={<ComunaDetails />} />
+
+          {/* Dashboard Individual do Hospital */}
+          <Route path="/sequele/unidade/:id" element={<HospitalDashboard />} />
 
           {/* Cadastros */}
           <Route path="/cadastros/comunas" element={<ComunasPage />} />
