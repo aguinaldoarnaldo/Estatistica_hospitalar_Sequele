@@ -63,7 +63,7 @@ const ComunaDetails = () => {
                                     borderRadius: '12px',
                                     padding: '25px',
                                     boxShadow: '0 4px 6px rgba(0,0,0,0.02)',
-                                    border: '1px solid var(--color-gray-light)',
+                                    boxShadow: '0 4px 6px rgba(0,0,0,0.02)',
                                     cursor: 'pointer',
                                     transition: 'transform 0.2s, box-shadow 0.2s'
                                 }}

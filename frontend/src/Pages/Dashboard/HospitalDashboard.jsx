@@ -20,32 +20,34 @@ const HospitalDashboard = () => {
   // Define colors based on commune (matching the map)
   const communeColors = {
     'Sequele': {
-      bg: 'linear-gradient(135deg, #ffffff 0%, #e6f0fa 100%)', // Blue
-      border: '1px solid #bfdbfe',
+      bg: '#dbeafe', // Stronger Blue
+      border: '1px solid #93c5fd',
       icon: 'var(--color-blue-medium)',
       text: 'var(--color-blue-dark)'
     },
     'Kifangondo': {
-      bg: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)', // Green
-      border: '1px solid #bbf7d0',
+      bg: '#dcfce7', // Stronger Green
+      border: '1px solid #86efac',
       icon: 'var(--color-green-medium)',
       text: 'var(--color-green-dark)'
     },
     'Funda': {
-      bg: 'linear-gradient(135deg, #ffffff 0%, #fef2f2 100%)', // Red
-      border: '1px solid #fecaca',
+      bg: '#fee2e2', // Stronger Red
+      border: '1px solid #fca5a5',
       icon: 'var(--color-red-medium)',
       text: 'var(--color-red-dark)'
     },
     'Zona Baia': {
-      bg: 'linear-gradient(135deg, #ffffff 0%, #fefce8 100%)', // Gold/Yellow
-      border: '1px solid #fde68a',
-      icon: '#d97706', // Darker gold/amber
+      bg: '#fef9c3', // Stronger Yellow
+      border: '1px solid #fde047',
+      icon: '#d97706',
       text: '#78350f'
     }
   };
 
-  const currentTheme = communeColors[unidade.comuna] || communeColors['Sequele'];
+  const currentTheme = (unidade?.comuna && communeColors[unidade.comuna])
+    ? communeColors[unidade.comuna]
+    : communeColors['Sequele'];
   const stats = getHospitalStats(Number(id));
   const { cards, chartConsultas, tableData, historyData } = stats;
 
