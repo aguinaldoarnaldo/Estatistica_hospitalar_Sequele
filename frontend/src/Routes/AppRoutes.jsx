@@ -1,20 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
-import NotFound from '../pages/NotFound/NotFound';
-import ErrorPage from '../pages/Error/ErrorPage';
-import LoginPage from '../pages/Login/LoginPage';
+import NotFound from '../Pages/NotFound/NotFound';
+import ErrorPage from '../Pages/Error/ErrorPage';
+import LoginPage from '../Pages/Login/LoginPage';
 import MainLayout from '../Components/Layout/MainLayout';
-import HomePage from '../pages/Home/HomePage';
-import ComunasPage from '../pages/cadastros/ComunasPage';
-import UnidadesPage from '../pages/cadastros/UnidadesPage';
-import PagePlaceholder from '../pages/PagePlaceholder';
-import ComunaDetails from '../pages/Comuna/ComunaDetails';
-import HospitalDashboard from '../pages/Dashboard/HospitalDashboard';
-import FuncionariosPage from '../pages/cadastros/FuncionariosPage';
-import PacientesPage from '../pages/cadastros/PacientesPage';
-import GeneralDashboard from '../pages/Dashboard/GeneralDashboard';
-import UsuariosAcessosPage from '../pages/cadastros/UsuariosAcessosPage';
+import HomePage from '../Pages/Home/HomePage';
+import ComunasPage from '../Pages/cadastros/ComunasPage';
+import UnidadesPage from '../Pages/cadastros/UnidadesPage';
+import PagePlaceholder from '../Pages/PagePlaceholder';
+import ComunaPage from '../Pages/Comuna/ComunaPage';
+import FuncionariosPage from '../Pages/cadastros/FuncionariosPage';
+import PacientesPage from '../Pages/cadastros/PacientesPage';
+import GeneralDashboard from '../Pages/Dashboard/GeneralDashboard';
+import Settings from '../Pages/Settings/Settings';
 
 const AppRoutes = () => {
   return (
@@ -50,7 +49,7 @@ const AppRoutes = () => {
           <Route path="/dashboard-geral" element={<GeneralDashboard />} />
 
           {/* Settings */}
-          <Route path="/settings" element={<PagePlaceholder title="Configurações do Sistema" />} />
+          <Route path="/settings" element={<Settings />} />
         </Route>
 
         {/* Fallback para 404 */}
