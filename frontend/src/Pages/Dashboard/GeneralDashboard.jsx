@@ -38,15 +38,15 @@ const GeneralDashboard = () => {
 
     return (
         <div style={{
-            backgroundColor: '#E6F0FA',
+            backgroundColor: 'var(--color-blue-light)',
             minHeight: '100vh',
             padding: '40px',
             fontFamily: "'Inter', sans-serif"
         }}>
             <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
                 <header style={{ marginBottom: '40px' }}>
-                    <h1 style={{ color: '#0D3B66', fontSize: '2rem', fontWeight: 'bold' }}>Dashboard Geral Hospitalar</h1>
-                    <p style={{ color: '#7F8C8D', fontSize: '1rem' }}>Visão integrada dos sectores de Sequele, Kifangondo, Funda e Zona Baia</p>
+                    <h1 style={{ color: 'var(--color-blue-dark)', fontSize: '2rem', fontWeight: 'bold' }}>Dashboard Geral Hospitalar</h1>
+                    <p style={{ color: 'var(--color-gray-dark)', fontSize: '1rem' }}>Visão integrada dos sectores de Sequele, Kifangondo, Funda e Zona Baia</p>
                 </header>
 
                 {/* Top Cards Section */}
@@ -62,12 +62,12 @@ const GeneralDashboard = () => {
 
                     {/* Map Section */}
                     <div style={{
-                        backgroundColor: '#FFFFFF',
+                        backgroundColor: 'var(--color-white)',
                         padding: '25px',
                         borderRadius: '12px',
                         boxShadow: '0 4px 6px rgba(0,0,0,0.05)'
                     }}>
-                        <h3 style={{ color: '#0D3B66', marginBottom: '20px' }}>Localização das Unidades Sanitárias</h3>
+                        <h3 style={{ color: 'var(--color-blue-dark)', marginBottom: '20px' }}>Localização das Unidades Sanitárias</h3>
                         <SectorMap />
                         <div style={{ marginTop: '15px', display: 'flex', gap: '20px', fontSize: '0.9rem', color: '#7F8C8D', flexWrap: 'wrap' }}>
                             <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>🔵 Sequele</span>

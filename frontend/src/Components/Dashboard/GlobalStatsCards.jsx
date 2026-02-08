@@ -3,15 +3,15 @@ import { FaUserInjured, FaStethoscope, FaProcedures, FaPills } from 'react-icons
 
 // Color Palette
 const colors = {
-    cardBg: '#FFFFFF',
-    textDark: '#0D3B66',
-    textLight: '#7F8C8D',
-    alertLight: '#FDECEA',
-    alertDark: '#C0392B',
-    successLight: '#DFF6E0',
-    successDark: '#2E7D32',
-    primaryLight: '#E6F0FA',
-    primaryMedium: '#4A90E2'
+    cardBg: 'var(--color-white)',
+    textDark: 'var(--color-blue-dark)',
+    textLight: 'var(--color-gray-dark)',
+    alertLight: 'var(--color-red-light)',
+    alertDark: 'var(--color-red-dark)',
+    successLight: 'var(--color-green-light)',
+    successDark: 'var(--color-green-dark)',
+    primaryLight: 'var(--color-blue-light)',
+    primaryMedium: 'var(--color-blue-medium)'
 };
 
 const StatCard = ({ title, value, icon, type = 'primary', subtext }) => {

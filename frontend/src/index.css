@@ -7,10 +7,38 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: var(--color-gray-light);
+  color: var(--color-gray-dark);
   min-height: 100vh;
   width: 100%;
+}
+
+:root {
+  /* Azul (principal, confiança e saúde) */
+  --color-blue-light: #E6F0FA;
+  --color-blue-medium: #4A90E2;
+  --color-blue-dark: #0D3B66;
+
+  /* Branco (limpeza e contraste) */
+  --color-white: #FFFFFF;
+
+  /* Verde (status positivo) */
+  --color-green-light: #DFF6E0;
+  --color-green-medium: #4CAF50;
+  --color-green-dark: #2E7D32;
+
+  /* Vermelho (alerta ou crítico) */
+  --color-red-light: #FDECEA;
+  --color-red-medium: #E74C3C;
+  --color-red-dark: #C0392B;
+
+  /* Cinza (textos secundários, bordas e separadores) */
+  --color-gray-light: #F5F5F5;
+  --color-gray-medium: #BDC3C7;
+  --color-gray-dark: #7F8C8D;
+
+  --color-text-primary: var(--color-blue-dark);
+  --color-text-secondary: var(--color-gray-dark);
 }
 
 #root {
