@@ -132,3 +132,65 @@
     border-radius: 8px;
     cursor: pointer;
 }
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
+
+.pageButton {
+    background-color: white;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.pageButton:hover:not(:disabled) {
+    background-color: #f1f5f9;
+    color: #1e293b;
+    border-color: #94a3b8;
+}
+
+.pageButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pageInfo {
+    font-size: 14px;
+    color: #475569;
+    font-weight: 500;
+}
+
+/* New Badges and Icons */
+.badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    background-color: #e0e7ff;
+    color: #4338ca;
+}
+
+.iconBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+    padding: 6px;
+    border-radius: 4px;
+    color: #64748b;
+    transition: all 0.2s;
+}
+
+.iconBtn:hover {
+    background-color: #f1f5f9;
+    color: #1e293b;
+}

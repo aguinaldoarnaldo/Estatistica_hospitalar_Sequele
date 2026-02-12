@@ -1,8 +1,8 @@
 import React from 'react';
 import { useStock } from '../../Context/StockContext';
 import styles from './StockDashboard.module.css';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { FiBox, FiAlertTriangle, FiActivity, FiDollarSign } from 'react-icons/fi';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { FiBox, FiAlertTriangle, FiActivity } from 'react-icons/fi';
 
 export default function StockDashboard() {
     const { products } = useStock();
@@ -24,8 +24,6 @@ export default function StockDashboard() {
         name: key,
         quantidade: categoryData[key]
     }));
-
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
     return (
         <div className={styles.container}>
@@ -74,17 +72,28 @@ export default function StockDashboard() {
                 <div className={styles.chartContainer}>
                     <h3 className={styles.sectionTitle}>Distribuição por Categoria</h3>
                     <ResponsiveContainer width="100%" height="90%">
-                        <BarChart
+                        <AreaChart
                             data={chartData}
-                            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                         >
-                            <CartesianGrid strokeDasharray="3 3" />
+                            <defs>
+                                <linearGradient id="colorQuantity" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.8} />
+                                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                                </linearGradient>
+                            </defs>
                             <XAxis dataKey="name" />
                             <YAxis />
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
                             <Tooltip />
-                            <Legend />
-                            <Bar dataKey="quantidade" fill="#4f46e5" name="Quantidade" />
-                        </BarChart>
+                            <Area
+                                type="monotone"
+                                dataKey="quantidade"
+                                stroke="#4f46e5"
+                                fillOpacity={1}
+                                fill="url(#colorQuantity)"
+                            />
+                        </AreaChart>
                     </ResponsiveContainer>
                 </div>
 

@@ -19,6 +19,8 @@ import UsuariosAcessosPage from '../Pages/cadastros/UsuariosAcessosPage';
 import Settings from '../Pages/Settings/Settings';
 import StockDashboard from '../Pages/Stock/StockDashboard';
 import StockManagement from '../Pages/Stock/StockManagement';
+import StockTransactions from '../Pages/Stock/StockTransactions';
+import StockSuppliers from '../Pages/Stock/StockSuppliers';
 
 const AppRoutes = () => {
   return (
@@ -43,6 +45,8 @@ const AppRoutes = () => {
           <Route path="/sequele/unidade/:id" element={<HospitalDashboard />} />
           <Route path="/sequele/unidade/:id/stock" element={<StockDashboard />} />
           <Route path="/sequele/unidade/:id/stock/gerenciar" element={<StockManagement />} />
+          <Route path="/sequele/unidade/:id/stock/movimentacoes" element={<StockTransactions />} />
+          <Route path="/sequele/unidade/:id/stock/fornecedores" element={<StockSuppliers />} />
 
           {/* Cadastros */}
           <Route path="/cadastros/comunas" element={<ComunasPage />} />
