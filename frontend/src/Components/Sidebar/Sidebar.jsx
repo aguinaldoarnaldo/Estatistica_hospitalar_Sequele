@@ -11,7 +11,8 @@ import {
   FiLogOut,
   FiUser,
   FiMenu,
-  FiCalendar
+  FiCalendar,
+  FiBox
 } from 'react-icons/fi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useComunas } from '../../context/ComunaContext';
@@ -51,8 +52,12 @@ const Sidebar = () => {
           { title: 'Visão Geral', path: `/sequele/comuna/${c.id}`, icon: <FiActivity /> },
           ...unidadesDaComuna.map(u => ({
             title: u.nome,
-            path: `/sequele/unidade/${u.id}`,
-            icon: <FiActivity />
+            icon: <FiActivity />,
+            children: [
+              { title: 'Dashboard', path: `/sequele/unidade/${u.id}`, icon: <FiActivity /> },
+              { title: 'Stock Geral', path: `/sequele/unidade/${u.id}/stock`, icon: <FiBox /> },
+              { title: 'Gerenciar Prod.', path: `/sequele/unidade/${u.id}/stock/gerenciar`, icon: <FiSettings /> }
+            ]
           }))
         ]
       };

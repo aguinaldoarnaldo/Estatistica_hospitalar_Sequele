@@ -15,8 +15,12 @@ import ComunaDetails from '../Pages/Comuna/ComunaDetails';
 import FuncionariosPage from '../Pages/cadastros/FuncionariosPage';
 import PacientesPage from '../Pages/cadastros/PacientesPage';
 import GeneralDashboard from '../Pages/Dashboard/GeneralDashboard';
+import ComunaDetails from '../Pages/Comuna/ComunaDetails';
 import HospitalDashboard from '../Pages/Dashboard/HospitalDashboard';
+import UsuariosAcessosPage from '../Pages/cadastros/UsuariosAcessosPage';
 import Settings from '../Pages/Settings/Settings';
+import StockDashboard from '../Pages/Stock/StockDashboard';
+import StockManagement from '../Pages/Stock/StockManagement';
 
 const AppRoutes = () => {
   return (
@@ -39,6 +43,8 @@ const AppRoutes = () => {
 
           {/* Dashboard Individual do Hospital */}
           <Route path="/sequele/unidade/:id" element={<HospitalDashboard />} />
+          <Route path="/sequele/unidade/:id/stock" element={<StockDashboard />} />
+          <Route path="/sequele/unidade/:id/stock/gerenciar" element={<StockManagement />} />
 
           {/* Cadastros */}
           <Route path="/cadastros/comunas" element={<ComunasPage />} />
