@@ -98,7 +98,7 @@ const SectorMap = () => {
                             direction="center"
                             className="sector-label-tooltip"
                         >
-                            <span style={{ fontWeight: 'bold', fontSize: '12px', color: '#2C3E50', textTransform: 'uppercase' }}>
+                            <span style={{ fontWeight: 'bold', fontSize: '12px', color: 'var(--color-blue-dark)', textTransform: 'uppercase' }}>
                                 {label.name}
                             </span>
                         </Tooltip>

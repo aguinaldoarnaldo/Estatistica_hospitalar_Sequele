@@ -2,12 +2,12 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 const colors = {
-    primary: '#4A90E2',
-    secondary: '#0D3B66',
-    success: '#4CAF50',
-    warning: '#F39C12',
-    danger: '#E74C3C',
-    grey: '#BDC3C7'
+    primary: 'var(--color-blue-medium)',
+    secondary: 'var(--color-blue-dark)',
+    success: 'var(--color-green-medium)',
+    warning: 'var(--color-green-dark)', // Using Green Dark instead of Orange
+    danger: 'var(--color-red-medium)',
+    grey: 'var(--color-gray-medium)'
 };
 
 const diseaseData = [
@@ -27,7 +27,7 @@ const ServicesChart = ({ data }) => {
         { name: 'Laboratório', value: data.reduce((acc, curr) => acc + (curr.laboratorio || 0), 0), color: colors.warning },
         { name: 'Cirurgias', value: data.reduce((acc, curr) => acc + (curr.cirurgias || 0), 0), color: colors.secondary },
         { name: 'Partos', value: data.reduce((acc, curr) => acc + (curr.partos || 0), 0), color: colors.success },
-        { name: 'Pré-Natal', value: data.reduce((acc, curr) => acc + (curr.prenatal || 0), 0), color: '#8E44AD' } // Purple for Prenatal
+        { name: 'Pré-Natal', value: data.reduce((acc, curr) => acc + (curr.prenatal || 0), 0), color: 'var(--color-green-light)' } // Green Light for Prenatal
     ];
 
     return (

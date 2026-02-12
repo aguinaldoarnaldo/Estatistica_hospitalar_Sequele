@@ -2,8 +2,182 @@
     display: flex;
     min-height: 100vh;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--color-white);
     font-family: 'Inter', sans-serif;
+}
+
+/* Left Side - Form */
+.formSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    background-color: var(--color-white);
+}
+
+.formContainer {
+    width: 100%;
+    max-width: 440px;
+}
+
+.header {
+    margin-bottom: 2.5rem;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-blue-dark);
+    /* Dark Blue */
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: 1.125rem;
+    color: var(--color-gray-medium);
+    /* Slate 400 */
+    font-weight: 400;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.forgotPasswordContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -0.5rem;
+    margin-bottom: 2rem;
+}
+
+.forgotPasswordLink {
+    font-size: 0.9375rem;
+    color: var(--color-blue-medium);
+    /* Modern Blue */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgotPasswordLink:hover {
+    text-decoration: underline;
+}
+
+.submitButton {
+    width: 100%;
+    padding: 1.125rem;
+    background-color: var(--color-blue-medium);
+    /* Matches the Blue in the image */
+    color: var(--color-white);
+    border: none;
+    border-radius: 10px;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.2);
+}
+
+.submitButton:hover {
+    background-color: var(--color-blue-dark);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+}
+
+.footer {
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--color-gray-medium);
+    margin-top: 1rem;
+}
+
+/* Right Side - Image */
+.imageSection {
+    flex: 1.1;
+    /* slightly larger than form */
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    /* centered vertically in image */
+    padding: 5rem;
+    overflow: hidden;
+}
+
+/* Darker overlay for text readability */
+.imageSection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.imageOverlay {
+    position: relative;
+    z-index: 2;
+    color: var(--color-white);
+    max-width: 580px;
+}
+
+.imageTitle {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.01em;
+}
+
+.imageSubtitle {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.trustBadge {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 2rem;
+}
+
+.stars {
+    color: #fbbf24;
+    /* Amber-400 - Keeping Gold/Yellow for stars */
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+}
+
+.trustText {
+    font-weight: 700;
+    font-size: 1.125rem;
+}
+
+.trustSubtext {
+    font-size: 0.9375rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1024px) {
+    .imageSection {
+        display: none;
+    }
+
+    .formSection {
+        padding: 2rem;
+    }
 }
 
 /* Left Side - Form */
@@ -29,14 +203,16 @@
 .title {
     font-size: 2.5rem;
     font-weight: 800;
-    color: #1a365d; /* Dark Blue */
+    color: #1a365d;
+    /* Dark Blue */
     margin-bottom: 0.75rem;
     letter-spacing: -0.02em;
 }
 
 .subtitle {
     font-size: 1.125rem;
-    color: #94a3b8; /* Slate 400 */
+    color: #94a3b8;
+    /* Slate 400 */
     font-weight: 400;
 }
 
@@ -54,7 +230,8 @@
 
 .forgotPasswordLink {
     font-size: 0.9375rem;
-    color: #3b82f6; /* Modern Blue */
+    color: #3b82f6;
+    /* Modern Blue */
     text-decoration: none;
     font-weight: 500;
 }
@@ -66,7 +243,8 @@
 .submitButton {
     width: 100%;
     padding: 1.125rem;
-    background-color: #448ce1; /* Matches the Blue in the image */
+    background-color: #448ce1;
+    /* Matches the Blue in the image */
     color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -93,12 +271,14 @@
 
 /* Right Side - Image */
 .imageSection {
-    flex: 1.1; /* slightly larger than form */
+    flex: 1.1;
+    /* slightly larger than form */
     position: relative;
     background-size: cover;
     background-position: center;
     display: flex;
-    align-items: center; /* centered vertically in image */
+    align-items: center;
+    /* centered vertically in image */
     padding: 5rem;
     overflow: hidden;
 }
@@ -146,7 +326,8 @@
 }
 
 .stars {
-    color: #fbbf24; /* Amber-400 */
+    color: #fbbf24;
+    /* Amber-400 */
     font-size: 1.5rem;
     letter-spacing: 4px;
     margin-bottom: 0.5rem;
@@ -167,7 +348,7 @@
     .imageSection {
         display: none;
     }
-    
+
     .formSection {
         padding: 2rem;
     }
