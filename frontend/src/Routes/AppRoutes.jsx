@@ -21,7 +21,9 @@ import StockDashboard from '../Pages/Stock/StockDashboard';
 import StockManagement from '../Pages/Stock/StockManagement';
 import HMSDashboard from '../Pages/HMS/HMSDashboard';
 import PatientRegistration from '../Pages/HMS/PatientRegistration';
+import PatientList from '../Pages/HMS/PatientList'; // Added PatientList import
 import ConsultationEntry from '../Pages/HMS/ConsultationEntry';
+import ConsultationHistory from '../Pages/HMS/ConsultationHistory'; // Added ConsultationHistory import
 import HMSLayout from '../Components/Layout/HMSLayout';
 import SystemSelection from '../Pages/SystemSelection/SystemSelection';
 
@@ -59,9 +61,9 @@ const AppRoutes = () => {
         <Route element={<HMSLayout />}>
           <Route path="/hms" element={<HMSDashboard />} />
           <Route path="/hms/pacientes/novo" element={<PatientRegistration />} />
-          <Route path="/hms/pacientes" element={<PagePlaceholder title="Lista de Pacientes (Hospitalar)" />} />
+          <Route path="/hms/pacientes" element={<PatientList />} />
           <Route path="/hms/consultas/novo" element={<ConsultationEntry />} />
-          <Route path="/hms/consultas" element={<PagePlaceholder title="Histórico de Consultas (Hospitalar)" />} />
+          <Route path="/hms/consultas" element={<ConsultationHistory />} />
         </Route>
 
         {/* Fallback para 404 */}

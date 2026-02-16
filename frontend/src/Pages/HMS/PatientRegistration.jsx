@@ -1,12 +1,15 @@
+import React, { useState } from 'react'; // Added useState import
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiSave, FiUser, FiActivity } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { useUnidades } from '../../context/UnidadeContext';
+import { useClinical } from '../../context/ClinicalContext'; // Import useClinical
 
 const PatientRegistration = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { unidades } = useUnidades();
+    const { addPatient } = useClinical(); // Destructure addPatient
 
     const unidadeId = user?.unidadeId || 1;
     const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
@@ -21,8 +24,12 @@ const PatientRegistration = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert('Paciente registrado com sucesso! (Protótipo)');
-        navigate('/hms');
+
+        // Salvar paciente no contexto clínico do hospital
+        addPatient(unidadeId, formData);
+
+        alert('Paciente registrado com sucesso! O processo clínico foi aberto.');
+        navigate('/hms/pacientes'); // Navigate to the patient list
     };
 
     const inputStyle = {

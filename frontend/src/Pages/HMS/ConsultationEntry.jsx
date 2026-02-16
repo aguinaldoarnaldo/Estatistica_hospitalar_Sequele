@@ -9,10 +9,12 @@ const ConsultationEntry = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { unidades } = useUnidades();
-    const { addRecord } = useClinical(); // Destructured addRecord
+    const { addConsultation, getPatients } = useClinical(); // Use addConsultation and getPatients
 
     const unidadeId = user?.unidadeId || 1;
     const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
+    const patients = getPatients(unidadeId); // Get real patients for this hospital
+
     const [formData, setFormData] = useState({
         pacienteId: '',
         servico: 'Medicina',
@@ -24,11 +26,22 @@ const ConsultationEntry = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Regista o serviço estatístico selecionado (consultas, urgencias, partos, etc.)
-        addRecord(unidadeId, formData.tipoVisita);
+        const selectedPatient = patients.find(p => p.id === Number(formData.pacienteId));
 
-        alert('Consulta registrada com sucesso! As estatísticas do dashboard foram atualizadas.');
-        navigate('/hms');
+        const consultationRecord = {
+            pacienteNome: selectedPatient ? selectedPatient.nome : 'Paciente Desconhecido',
+            especialidade: formData.servico,
+            tipoVisita: formData.tipoVisita,
+            medico: user?.name || 'Médico de Serviço',
+            descricao: formData.descricao,
+            status: 'Concluída'
+        };
+
+        // Regista a consulta no histórico detalhado (também incrementa contadores)
+        addConsultation(unidadeId, consultationRecord);
+
+        alert('Consulta registrada com sucesso! O histórico foi atualizado.');
+        navigate('/hms/consultas');
     };
 
     const inputStyle = {
@@ -83,9 +96,11 @@ const ConsultationEntry = () => {
                         <label style={labelStyle}>Selecionar Paciente</label>
                         <select required style={inputStyle} onChange={(e) => setFormData({ ...formData, pacienteId: e.target.value })}>
                             <option value="">-- Selecione o Paciente --</option>
-                            <option value="1">Manuel dos Santos (32 anos)</option>
-                            <option value="2">Ana Ferreira (12 anos)</option>
-                            <option value="3">Carlos Mendes (45 anos)</option>
+                            {patients.map(patient => (
+                                <option key={patient.id} value={patient.id}>
+                                    {patient.nome} ({patient.bi})
+                                </option>
+                            ))}
                         </select>
                     </div>
 
