@@ -1,32 +1,33 @@
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FiArrowLeft, FiSave, FiList, FiPlus, FiActivity } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { useUnidades } from '../../context/UnidadeContext';
+import { useClinical } from '../../context/ClinicalContext'; // Imported useClinical
 
 const ConsultationEntry = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { unidades } = useUnidades();
+    const { addRecord } = useClinical(); // Destructured addRecord
 
     const unidadeId = user?.unidadeId || 1;
     const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
     const [formData, setFormData] = useState({
         pacienteId: '',
         servico: 'Medicina',
-        tipoVisita: 'C.E (Consulta Externa)',
+        tipoVisita: 'consultas',
         tipoPrestador: 'Médico',
-        descricao: '',
-        procedimentos: {
-            laboratorio: false,
-            cirurgia: false,
-            parto: false,
-            prenatal: false
-        }
+        descricao: ''
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert('Consulta registrada com sucesso! Dados prontos para estatística.');
+
+        // Regista o serviço estatístico selecionado (consultas, urgencias, partos, etc.)
+        addRecord(unidadeId, formData.tipoVisita);
+
+        alert('Consulta registrada com sucesso! As estatísticas do dashboard foram atualizadas.');
         navigate('/hms');
     };
 
@@ -96,10 +97,14 @@ const ConsultationEntry = () => {
                             </select>
                         </div>
                         <div>
-                            <label style={labelStyle}>Tipo de Visita</label>
+                            <label style={labelStyle}>Tipo de Serviço (Estatística)</label>
                             <select style={inputStyle} value={formData.tipoVisita} onChange={(e) => setFormData({ ...formData, tipoVisita: e.target.value })}>
-                                <option value="C.E (Consulta Externa)">C.E (Consulta Externa)</option>
-                                <option value="C.B.U (Urgência)">C.B.U (Urgência)</option>
+                                <option value="consultas">Consulta Externa (C.E)</option>
+                                <option value="urgencias">Banco de Urgência (C.B.U)</option>
+                                <option value="laboratorio">Exame de Laboratório</option>
+                                <option value="cirurgias">Cirurgia</option>
+                                <option value="partos">Parto</option>
+                                <option value="prenatal">Consulta Pré-Natal</option>
                             </select>
                         </div>
                         <div>
@@ -111,24 +116,7 @@ const ConsultationEntry = () => {
                         </div>
                     </div>
 
-                    {/* Stats-related Checkboxes */}
-                    <div style={{ marginBottom: '24px', backgroundColor: '#fdf4ff', padding: '20px', borderRadius: '12px', border: '1px solid #f5d0fe' }}>
-                        <label style={{ ...labelStyle, color: '#86198f', display: 'block', marginBottom: '12px' }}>Procedimentos de Estatística (Opcional)</label>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '15px' }}>
-                            {['laboratorio', 'cirurgia', 'parto', 'prenatal'].map(proc => (
-                                <label key={proc} style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', textTransform: 'capitalize' }}>
-                                    <input
-                                        type="checkbox"
-                                        onChange={(e) => setFormData({
-                                            ...formData,
-                                            procedimentos: { ...formData.procedimentos, [proc]: e.target.checked }
-                                        })}
-                                    />
-                                    <span style={{ fontSize: '0.9rem', color: '#701a75' }}>{proc.replace('prenatal', 'Pré-Natal')}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
+                    {/* Removido o quadro de checkboxes para consolidar tudo no dropdown acima como solicitado */}
 
                     <div style={{ marginBottom: '32px' }}>
                         <label style={labelStyle}>Observações Clínicas</label>

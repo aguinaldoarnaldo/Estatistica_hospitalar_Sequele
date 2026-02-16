@@ -5,11 +5,13 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { useAuth } from '../../context/AuthContext';
 import { useUnidades } from '../../context/UnidadeContext';
 import { getHospitalStats } from '../../utils/mockStats';
+import { useClinical } from '../../context/ClinicalContext'; // Imported useClinical
 
 const HMSDashboard = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { unidades } = useUnidades();
+    const { getRecords } = useClinical(); // Destructured getRecords
 
     // Localizar a unidade hospitalar associada ao utilizador logado
     const unidadeId = user?.unidadeId || 1;
@@ -48,7 +50,18 @@ const HMSDashboard = () => {
         : communeColors['Sequele'];
 
     const stats = getHospitalStats(unidadeId);
-    const { cards, chartConsultas } = stats;
+    const liveStats = getRecords(unidadeId);
+
+    const combinedCards = {
+        consultas: stats.cards.consultas + (liveStats.consultas || 0),
+        urgencias: stats.cards.urgencias + (liveStats.urgencias || 0),
+        laboratorio: stats.cards.laboratorio + (liveStats.laboratorio || 0),
+        cirurgias: stats.cards.cirurgias + (liveStats.cirurgias || 0),
+        partos: stats.cards.partos + (liveStats.partos || 0),
+        prenatal: stats.cards.prenatal + (liveStats.prenatal || 0),
+    };
+
+    const { chartConsultas } = stats;
 
     const StatsCard = ({ title, icon, value }) => (
         <div style={{
@@ -101,14 +114,14 @@ const HMSDashboard = () => {
                 </div>
             </header>
 
-            {/* Metrics Cards - Matching Statistics Design EXACTLY */}
+            {/* Metrics Cards - Sum of Mock + Live Data */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px', marginBottom: '40px' }}>
-                <StatsCard title="Consultas Externas" icon={<FiClipboard />} value={cards.consultas} />
-                <StatsCard title="Banco de Urgência" icon={<FiActivity />} value={cards.urgencias} />
-                <StatsCard title="Laboratório" icon={<FiThermometer />} value={cards.laboratorio} />
-                <StatsCard title="Cirurgias" icon={<FiScissors />} value={cards.cirurgias} />
-                <StatsCard title="Partos" icon={<FiUsers />} value={cards.partos} />
-                <StatsCard title="Pré-natais" icon={<FiHeart />} value={cards.prenatal} />
+                <StatsCard title="Consultas Externas" icon={<FiClipboard />} value={combinedCards.consultas} />
+                <StatsCard title="Banco de Urgência" icon={<FiActivity />} value={combinedCards.urgencias} />
+                <StatsCard title="Laboratório" icon={<FiThermometer />} value={combinedCards.laboratorio} />
+                <StatsCard title="Cirurgias" icon={<FiScissors />} value={combinedCards.cirurgias} />
+                <StatsCard title="Partos" icon={<FiUsers />} value={combinedCards.partos} />
+                <StatsCard title="Pré-natais" icon={<FiHeart />} value={combinedCards.prenatal} />
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '30px' }}>

@@ -4,13 +4,16 @@ import { FiActivity, FiUsers, FiClipboard, FiHeart, FiScissors, FiThermometer, F
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useUnidades } from '../../context/UnidadeContext';
 import { getHospitalStats } from '../../utils/mockStats';
+import { useClinical } from '../../context/ClinicalContext'; // Imported useClinical
 
 const HospitalDashboard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { unidades } = useUnidades();
+  const { getRecords } = useClinical(); // Destructured getRecords
 
-  const unidade = unidades.find(u => u.id === Number(id)) || {
+  const unidadeId = Number(id);
+  const unidade = unidades.find(u => u.id === unidadeId) || {
     nome: 'Unidade Hospitalar',
     diretor: 'Não informado',
     tipo: 'Hospital',
@@ -48,8 +51,21 @@ const HospitalDashboard = () => {
   const currentTheme = (unidade?.comuna && communeColors[unidade.comuna])
     ? communeColors[unidade.comuna]
     : communeColors['Sequele'];
-  const stats = getHospitalStats(Number(id));
-  const { cards, chartConsultas, tableData, historyData } = stats;
+
+  const stats = getHospitalStats(unidadeId);
+  const liveStats = getRecords(unidadeId); // Get live captured data
+
+  // Combine mock data with live captured data for the cards
+  const combinedCards = {
+    consultas: stats.cards.consultas + (liveStats.consultas || 0),
+    urgencias: stats.cards.urgencias + (liveStats.urgencias || 0),
+    laboratorio: stats.cards.laboratorio + (liveStats.laboratorio || 0),
+    cirurgias: stats.cards.cirurgias + (liveStats.cirurgias || 0),
+    partos: stats.cards.partos + (liveStats.partos || 0),
+    prenatal: stats.cards.prenatal + (liveStats.prenatal || 0),
+  };
+
+  const { chartConsultas, tableData, historyData } = stats;
 
   // Mock Data for "Consultas por Especialidade" (Table)
   const specialityData = [
@@ -127,12 +143,12 @@ const HospitalDashboard = () => {
 
       {/* Cards Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', marginBottom: '30px' }}>
-        <StatsCard title="Consultas Externas" icon={<FiClipboard />} value={cards.consultas} />
-        <StatsCard title="Consultas de Banco de Urgência" icon={<FiActivity />} value={cards.urgencias} />
-        <StatsCard title="Exames de Laboratório" icon={<FiThermometer />} value={cards.laboratorio} />
-        <StatsCard title="Cirurgias" icon={<FiScissors />} value={cards.cirurgias} />
-        <StatsCard title="Partos" icon={<FiUsers />} value={cards.partos} />
-        <StatsCard title="Consultas Pré-natais" icon={<FiHeart />} value={cards.prenatal} />
+        <StatsCard title="Consultas Externas" icon={<FiClipboard />} value={combinedCards.consultas} />
+        <StatsCard title="Consultas de Banco de Urgência" icon={<FiActivity />} value={combinedCards.urgencias} />
+        <StatsCard title="Exames de Laboratório" icon={<FiThermometer />} value={combinedCards.laboratorio} />
+        <StatsCard title="Cirurgias" icon={<FiScissors />} value={combinedCards.cirurgias} />
+        <StatsCard title="Partos" icon={<FiUsers />} value={combinedCards.partos} />
+        <StatsCard title="Consultas Pré-natais" icon={<FiHeart />} value={combinedCards.prenatal} />
       </div>
 
       {/* Charts & Table Section */}
