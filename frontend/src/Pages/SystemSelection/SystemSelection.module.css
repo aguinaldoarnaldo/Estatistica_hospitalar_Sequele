@@ -1,0 +1,261 @@
+.container {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle background animations for premium feel on white */
+.container::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    animation: float 20s infinite ease-in-out;
+}
+
+.container::after {
+    content: '';
+    position: absolute;
+    bottom: -10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.05) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1;
+    animation: floatDelayed 25s infinite ease-in-out;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(50px, 50px);
+    }
+}
+
+@keyframes floatDelayed {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-50px, -30px);
+    }
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 60px;
+    z-index: 10;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.title {
+    font-size: 3.5rem;
+    font-weight: 900;
+    margin-bottom: 16px;
+    /* Darker gradient for visibility on white */
+    background: linear-gradient(to right, #1e3a8a, #7c3aed);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    color: #64748b;
+    font-size: 1.25rem;
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cardsContainer {
+    display: flex;
+    gap: 40px;
+    z-index: 10;
+    flex-wrap: wrap;
+    justify-content: center;
+    perspective: 1000px;
+}
+
+.card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 50px 40px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 360px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    border-color: #cbd5e1;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.iconContainer {
+    width: 90px;
+    height: 90px;
+    border-radius: 24px;
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+    margin-bottom: 10px;
+}
+
+/* Blue Theme for Stats */
+.cardBlue .iconContainer {
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.cardBlue:hover .iconContainer {
+    background: #dbUg4;
+    color: #2563eb;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.cardBlue:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #3b82f6;
+    animation: slideRight 0.4s ease-out forwards;
+}
+
+/* Purple Theme for HMS */
+.cardPurple .iconContainer {
+    background: #f5f3ff;
+    color: #8b5cf6;
+}
+
+.cardPurple:hover .iconContainer {
+    background: #ede9fe;
+    color: #7c3aed;
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.cardPurple:hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #8b5cf6;
+    animation: slideRight 0.4s ease-out forwards;
+}
+
+@keyframes slideRight {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+.cardTitle {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+}
+
+.cardDescription {
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+    margin: 0;
+}
+
+.cardFooter {
+    margin-top: auto;
+    font-size: 0.875rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.cardBlue .cardFooter {
+    color: #2563eb;
+}
+
+.cardPurple .cardFooter {
+    color: #7c3aed;
+}
+
+.card:hover .cardFooter {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.footer {
+    margin-top: 80px;
+    color: #94a3b8;
+    font-size: 0.875rem;
+    z-index: 10;
+    animation: fadeIn 1s ease-out 0.5s backwards;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}

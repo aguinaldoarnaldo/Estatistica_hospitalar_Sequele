@@ -12,7 +12,9 @@ import {
   FiUser,
   FiMenu,
   FiCalendar,
-  FiBox
+  FiBox,
+  FiArrowLeft,
+  FiClipboard
 } from 'react-icons/fi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useComunas } from '../../context/ComunaContext';
@@ -167,6 +169,12 @@ const Sidebar = () => {
             </div>
           )}
         </div>
+
+        <button className={styles.logoutBtn} onClick={() => navigate('/')} style={{ color: 'var(--color-blue-medium)', marginBottom: '10px' }}>
+          <FiArrowLeft />
+          {!isCollapsed && <span className={styles.label}>Voltar à Seleção</span>}
+        </button>
+
         <button className={styles.logoutBtn} onClick={handleLogout}>
           <FiLogOut />
           {!isCollapsed && <span className={styles.label}>Sair</span>}

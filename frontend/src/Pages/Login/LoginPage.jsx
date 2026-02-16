@@ -1,22 +1,34 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import Input from '../../Components/UI/Input';
+import { useAuth } from '../../context/AuthContext';
 import styles from './LoginPage.module.css';
 import heroImage from '../../assets/images/login-hero.jpg';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
     const {
         register,
         handleSubmit,
         formState: { errors }
     } = useForm();
 
+    const { state } = useLocation();
     const onSubmit = (data) => {
         console.log('Login submitted:', data);
-        // Simulate login success - Redirect to General Dashboard
-        navigate('/dashboard-geral');
+
+        // Simulate login with hospital association (Unidade ID 1 by default)
+        login({
+            name: data.email.split('@')[0],
+            unidadeId: 1,
+            role: 'Médico'
+        });
+
+        // Redirect to the chosen module or fallback to General Dashboard
+        const redirectPath = state?.redirect || '/home';
+        navigate(redirectPath);
     };
 
     return (
