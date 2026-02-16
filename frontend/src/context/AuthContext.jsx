@@ -14,9 +14,28 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     const login = (userData) => {
-        // userData should include unidadId (hospital ID)
-        setUser(userData);
-        localStorage.setItem('hms_user', JSON.stringify(userData));
+        // SIMULATION: Rotate user identity to show multi-tenancy
+        // Get current rotation index
+        let rotationIndex = parseInt(localStorage.getItem('hms_rotation_index') || '0');
+
+        const mockIdentities = [
+            { name: 'Dr. Arnaldo', role: 'Médico Chefe', unidadeId: 1 }, // Vila Verde
+            { name: 'Enf. Joana', role: 'Enfermeira', unidadeId: 4 },    // Kifangondo
+            { name: 'Dra. Sofia', role: 'Diretora Clínica', unidadeId: 7 }, // Funda
+            { name: 'Dr. Antonio', role: 'Médico', unidadeId: 9 },       // Zona Baia
+        ];
+
+        // Select next identity
+        const nextIdentity = mockIdentities[rotationIndex % mockIdentities.length];
+
+        // Update rotation for next time
+        localStorage.setItem('hms_rotation_index', (rotationIndex + 1).toString());
+
+        // Merge simulated identity with login data
+        const finalUser = { ...userData, ...nextIdentity };
+
+        setUser(finalUser);
+        localStorage.setItem('hms_user', JSON.stringify(finalUser));
     };
 
     const logout = () => {

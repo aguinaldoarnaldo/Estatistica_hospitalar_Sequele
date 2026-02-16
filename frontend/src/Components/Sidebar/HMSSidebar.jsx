@@ -23,7 +23,7 @@ const HMSSidebar = () => {
 
     const handleLogout = () => {
         logout();
-        navigate('/login');
+        navigate('/login', { state: { redirect: '/hms' } });
     };
 
     // Encontrar o nome do hospital para mostrar na sidebar

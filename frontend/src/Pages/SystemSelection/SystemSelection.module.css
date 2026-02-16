@@ -141,7 +141,7 @@
 }
 
 .cardBlue:hover .iconContainer {
-    background: #dbUg4;
+    background: #dbeafe;
     color: #2563eb;
     transform: scale(1.1) rotate(5deg);
 }
