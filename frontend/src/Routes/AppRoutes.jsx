@@ -64,6 +64,8 @@ const AppRoutes = () => {
           <Route path="/hms/pacientes" element={<PatientList />} />
           <Route path="/hms/consultas/novo" element={<ConsultationEntry />} />
           <Route path="/hms/consultas" element={<ConsultationHistory />} />
+          <Route path="/hms/stock" element={<StockDashboard />} />
+          <Route path="/hms/stock/gerenciar" element={<StockManagement />} />
         </Route>
 
         {/* Fallback para 404 */}

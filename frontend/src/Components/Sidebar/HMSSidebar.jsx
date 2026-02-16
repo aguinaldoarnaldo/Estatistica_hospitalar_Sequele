@@ -7,7 +7,10 @@ import {
     FiLogOut,
     FiUser,
     FiMenu,
-    FiActivity
+    FiActivity,
+    FiBox,
+    FiSettings,
+    FiList
 } from 'react-icons/fi';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
@@ -35,7 +38,14 @@ const HMSSidebar = () => {
         { title: 'Novo Paciente', icon: <FiPlusCircle />, path: '/hms/pacientes/novo' },
         { title: 'Nova Consulta', icon: <FiClipboard />, path: '/hms/consultas/novo' },
         { title: 'Lista de Pacientes', icon: <FiUsers />, path: '/hms/pacientes' },
-        { title: 'Histórico de Consultas', icon: <FiClipboard />, path: '/hms/consultas' },
+        { title: 'Histórico de Consultas', icon: <FiList />, path: '/hms/consultas' },
+        { 
+            section: 'FARMÁCIA & STOCK',
+            items: [
+                { title: 'Painel de Inventário', icon: <FiBox />, path: '/hms/stock' },
+                { title: 'Gerenciar Produtos', icon: <FiSettings />, path: '/hms/stock/gerenciar' },
+            ]
+        },
     ];
 
     return (
@@ -51,30 +61,47 @@ const HMSSidebar = () => {
             </div>
 
             <ul className={styles.menuList}>
-                {MENU_ITEMS.map((item) => (
-                    <li key={item.title}>
-                        <div
-                            className={`${styles.menuItem} ${location.pathname === item.path ? styles.active : ''}`}
-                            onClick={() => navigate(item.path)}
-                        >
-                            <div className={styles.iconWrapper}>{item.icon}</div>
-                            {!isCollapsed && <span className={styles.label}>{item.title}</span>}
-                        </div>
-                    </li>
-                ))}
+                {MENU_ITEMS.map((item, idx) => {
+                    if (item.section) {
+                        return (
+                            <div key={idx} style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>
+                                {!isCollapsed && <label style={{ 
+                                    fontSize: '0.65rem', 
+                                    fontWeight: '800', 
+                                    color: '#94a3b8', 
+                                    paddingLeft: '1rem',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em'
+                                }}>{item.section}</label>}
+                                {item.items.map(subItem => (
+                                    <li key={subItem.title}>
+                                        <div
+                                            className={`${styles.menuItem} ${location.pathname === subItem.path ? styles.active : ''}`}
+                                            onClick={() => navigate(subItem.path)}
+                                        >
+                                            <div className={styles.iconWrapper}>{subItem.icon}</div>
+                                            {!isCollapsed && <span className={styles.label}>{subItem.title}</span>}
+                                        </div>
+                                    </li>
+                                ))}
+                            </div>
+                        );
+                    }
+                    return (
+                        <li key={item.title}>
+                            <div
+                                className={`${styles.menuItem} ${location.pathname === item.path ? styles.active : ''}`}
+                                onClick={() => navigate(item.path)}
+                            >
+                                <div className={styles.iconWrapper}>{item.icon}</div>
+                                {!isCollapsed && <span className={styles.label}>{item.title}</span>}
+                            </div>
+                        </li>
+                    );
+                })}
             </ul>
 
             <div className={styles.sidebarFooter}>
-                <div className={styles.profileSection}>
-                    <div className={styles.avatar}><FiUser /></div>
-                    {!isCollapsed && (
-                        <div className={styles.profileInfo}>
-                            <span className={styles.userName}>{user?.name || 'Utilizador'}</span>
-                            <span className={styles.userRole}>{user?.role || 'Médico'}</span>
-                        </div>
-                    )}
-                </div>
-
                 <button className={styles.logoutBtn} onClick={() => navigate('/')} style={{ color: 'var(--color-blue-medium)', marginBottom: '10px' }}>
                     <FiArrowLeft />
                     {!isCollapsed && <span className={styles.label}>Voltar à Seleção</span>}
