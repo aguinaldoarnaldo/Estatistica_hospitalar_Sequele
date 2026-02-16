@@ -13,7 +13,7 @@ const PatientList = () => {
     const [searchTerm, setSearchTerm] = useState('');
 
     const unidadeId = user?.unidadeId || 1;
-    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
+    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0] || { nome: 'Hospital', comuna: 'Sequele' };
     const patients = getPatients(unidadeId);
 
     // Temas por comuna

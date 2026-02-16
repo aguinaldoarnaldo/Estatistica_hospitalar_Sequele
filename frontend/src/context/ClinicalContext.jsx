@@ -102,9 +102,41 @@ export const ClinicalProvider = ({ children }) => {
         return consultations[unidadeId] || [];
     };
 
+    const getRecordsForRange = (unidadeId, startDate, endDate) => {
+        const hospitalConsultations = consultations[unidadeId] || [];
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        // Set end date to end of day
+        end.setHours(23, 59, 59, 999);
+
+        // Filter by date range
+        const filtered = hospitalConsultations.filter(c => {
+            const consDate = new Date(c.data);
+            return consDate >= start && consDate <= end;
+        });
+
+        // Aggregate by tipoVisita
+        return filtered.reduce((acc, curr) => {
+            const type = curr.tipoVisita || 'consultas';
+            acc[type] = (acc[type] || 0) + 1;
+            return acc;
+        }, {
+            consultas: 0, urgencias: 0, laboratorio: 0, cirurgias: 0, partos: 0, prenatal: 0
+        });
+    };
+
+    // Keep for compatibility or legacy views
+    const getRecordsForPeriod = (unidadeId, month, year) => {
+        const startDate = new Date(year, month, 1).toISOString().split('T')[0];
+        const endDate = new Date(year, month + 1, 0).toISOString().split('T')[0];
+        return getRecordsForRange(unidadeId, startDate, endDate);
+    };
+
     return (
         <ClinicalContext.Provider value={{
             addRecord, getRecords,
+            getRecordsForPeriod,
+            getRecordsForRange, // Added
             addPatient, getPatients,
             addConsultation, getConsultations
         }}>

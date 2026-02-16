@@ -31,7 +31,7 @@ const HMSSidebar = () => {
 
     // Encontrar o nome do hospital para mostrar na sidebar
     const unidadeId = user?.unidadeId || 1;
-    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
+    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0] || { nome: 'Hospital', comuna: 'Sequele' };
 
     const MENU_ITEMS = [
         { title: 'Dashboard Geral', icon: <FiActivity />, path: '/hms' },
@@ -39,7 +39,7 @@ const HMSSidebar = () => {
         { title: 'Nova Consulta', icon: <FiClipboard />, path: '/hms/consultas/novo' },
         { title: 'Lista de Pacientes', icon: <FiUsers />, path: '/hms/pacientes' },
         { title: 'Histórico de Consultas', icon: <FiList />, path: '/hms/consultas' },
-        { 
+        {
             section: 'FARMÁCIA & STOCK',
             items: [
                 { title: 'Painel de Inventário', icon: <FiBox />, path: '/hms/stock' },
@@ -65,10 +65,10 @@ const HMSSidebar = () => {
                     if (item.section) {
                         return (
                             <div key={idx} style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>
-                                {!isCollapsed && <label style={{ 
-                                    fontSize: '0.65rem', 
-                                    fontWeight: '800', 
-                                    color: '#94a3b8', 
+                                {!isCollapsed && <label style={{
+                                    fontSize: '0.65rem',
+                                    fontWeight: '800',
+                                    color: '#94a3b8',
                                     paddingLeft: '1rem',
                                     textTransform: 'uppercase',
                                     letterSpacing: '0.05em'

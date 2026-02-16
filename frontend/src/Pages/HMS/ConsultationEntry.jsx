@@ -12,7 +12,7 @@ const ConsultationEntry = () => {
     const { addConsultation, getPatients } = useClinical(); // Use addConsultation and getPatients
 
     const unidadeId = user?.unidadeId || 1;
-    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
+    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0] || { nome: 'Hospital', comuna: 'Sequele' };
     const patients = getPatients(unidadeId); // Get real patients for this hospital
 
     const [formData, setFormData] = useState({

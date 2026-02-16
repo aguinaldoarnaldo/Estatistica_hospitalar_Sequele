@@ -10,7 +10,12 @@ const HospitalDashboard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { unidades } = useUnidades();
-  const { getRecords } = useClinical(); // Destructured getRecords
+  const [startDate, setStartDate] = useState(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1).toISOString().split('T')[0];
+  });
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const { getRecordsForRange } = useClinical();
 
   const unidadeId = Number(id);
   const unidade = unidades.find(u => u.id === unidadeId) || {
@@ -22,40 +27,19 @@ const HospitalDashboard = () => {
 
   // Define colors based on commune (matching the map)
   const communeColors = {
-    'Sequele': {
-      bg: '#dbeafe', // Stronger Blue
-      border: '1px solid #93c5fd',
-      icon: 'var(--color-blue-medium)',
-      text: 'var(--color-blue-dark)'
-    },
-    'Kifangondo': {
-      bg: '#dcfce7', // Stronger Green
-      border: '1px solid #86efac',
-      icon: 'var(--color-green-medium)',
-      text: 'var(--color-green-dark)'
-    },
-    'Funda': {
-      bg: '#fee2e2', // Stronger Red
-      border: '1px solid #fca5a5',
-      icon: 'var(--color-red-medium)',
-      text: 'var(--color-red-dark)'
-    },
-    'Zona Baia': {
-      bg: '#fef9c3', // Stronger Yellow
-      border: '1px solid #fde047',
-      icon: '#d97706',
-      text: '#78350f'
-    }
+    'Sequele': { bg: '#dbeafe', border: '1px solid #93c5fd', icon: 'var(--color-blue-medium)', text: 'var(--color-blue-dark)' },
+    'Kifangondo': { bg: '#dcfce7', border: '1px solid #86efac', icon: 'var(--color-green-medium)', text: 'var(--color-green-dark)' },
+    'Funda': { bg: '#fee2e2', border: '1px solid #fca5a5', icon: 'var(--color-red-medium)', text: 'var(--color-red-dark)' },
+    'Zona Baia': { bg: '#fef9c3', border: '1px solid #fde047', icon: '#d97706', text: '#78350f' }
   };
 
   const currentTheme = (unidade?.comuna && communeColors[unidade.comuna])
     ? communeColors[unidade.comuna]
     : communeColors['Sequele'];
 
-  const stats = getHospitalStats(unidadeId);
-  const liveStats = getRecords(unidadeId); // Get live captured data
+  const stats = getHospitalStats(unidadeId, startDate, endDate);
+  const liveStats = getRecordsForRange(unidadeId, startDate, endDate); // Use new filtering function
 
-  // Combine mock data with live captured data for the cards
   const combinedCards = {
     consultas: stats.cards.consultas + (liveStats.consultas || 0),
     urgencias: stats.cards.urgencias + (liveStats.urgencias || 0),
@@ -64,6 +48,7 @@ const HospitalDashboard = () => {
     partos: stats.cards.partos + (liveStats.partos || 0),
     prenatal: stats.cards.prenatal + (liveStats.prenatal || 0),
   };
+
 
   const { chartConsultas, tableData, historyData } = stats;
 
@@ -122,9 +107,42 @@ const HospitalDashboard = () => {
           <FiArrowLeft /> Voltar para Comuna
         </button>
 
-        <div style={{ display: 'flex', gap: '15px' }}>
-          <div style={{ backgroundColor: 'var(--color-white)', padding: '10px 20px', borderRadius: '6px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', color: 'var(--color-blue-dark)', cursor: 'pointer' }}>
-            Janeiro (2024) <FiChevronDown />
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--color-gray-dark)' }}>DE:</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              style={{
+                backgroundColor: 'var(--color-white)',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                color: 'var(--color-blue-dark)',
+                border: 'none',
+                outline: 'none'
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--color-gray-dark)' }}>ATÉ:</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              style={{
+                backgroundColor: 'var(--color-white)',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                color: 'var(--color-blue-dark)',
+                border: 'none',
+                outline: 'none'
+              }}
+            />
           </div>
           <button
             onClick={() => window.print()}

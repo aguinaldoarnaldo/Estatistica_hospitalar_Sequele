@@ -11,46 +11,31 @@ const HMSDashboard = () => {
     const navigate = useNavigate();
     const { user } = useAuth();
     const { unidades } = useUnidades();
-    const { getRecords } = useClinical(); // Destructured getRecords
+    const [startDate, setStartDate] = useState(() => {
+        const d = new Date();
+        return new Date(d.getFullYear(), d.getMonth(), 1).toISOString().split('T')[0];
+    });
+    const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
 
-    // Localizar a unidade hospitalar associada ao utilizador logado
+    const { getRecordsForRange } = useClinical();
+
     const unidadeId = user?.unidadeId || 1;
-    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
+    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0] || { nome: 'Hospital', comuna: 'Sequele' };
 
     // Temas por comuna (mesma lógica do dashboard estatístico para manter consistência)
     const communeColors = {
-        'Sequele': {
-            bg: '#dbeafe',
-            border: '1px solid #93c5fd',
-            icon: '#2563eb',
-            text: '#1e3a8a'
-        },
-        'Kifangondo': {
-            bg: '#dcfce7',
-            border: '1px solid #86efac',
-            icon: '#16a34a',
-            text: '#14532d'
-        },
-        'Funda': {
-            bg: '#fee2e2',
-            border: '1px solid #fca5a5',
-            icon: '#dc2626',
-            text: '#7f1d1d'
-        },
-        'Zona Baia': {
-            bg: '#fef9c3',
-            border: '1px solid #fde047',
-            icon: '#d97706',
-            text: '#78350f'
-        }
+        'Sequele': { bg: '#dbeafe', border: '1px solid #93c5fd', icon: '#2563eb', text: '#1e3a8a' },
+        'Kifangondo': { bg: '#dcfce7', border: '1px solid #86efac', icon: '#16a34a', text: '#14532d' },
+        'Funda': { bg: '#fee2e2', border: '1px solid #fca5a5', icon: '#dc2626', text: '#7f1d1d' },
+        'Zona Baia': { bg: '#fef9c3', border: '1px solid #fde047', icon: '#d97706', text: '#78350f' }
     };
 
     const currentTheme = (unidade?.comuna && communeColors[unidade.comuna])
         ? communeColors[unidade.comuna]
         : communeColors['Sequele'];
 
-    const stats = getHospitalStats(unidadeId);
-    const liveStats = getRecords(unidadeId);
+    const stats = getHospitalStats(unidadeId, startDate, endDate);
+    const liveStats = getRecordsForRange(unidadeId, startDate, endDate);
 
     const combinedCards = {
         consultas: stats.cards.consultas + (liveStats.consultas || 0),
@@ -107,9 +92,42 @@ const HMSDashboard = () => {
                     </div>
                     <p style={{ color: '#64748b', fontSize: '0.95rem' }}>Utilizador: <strong>{user?.name}</strong> • Função: <strong>{user?.role}</strong> • Localidade: <strong>{unidade.comuna}</strong></p>
                 </div>
-                <div style={{ display: 'flex', gap: '12px' }} className="no-print">
-                    <div style={{ backgroundColor: '#fff', padding: '10px 18px', borderRadius: '10px', border: '1px solid #e2e8f0', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', color: '#1e293b', fontWeight: '600' }}>
-                        Maio (2024) <FiChevronDown />
+                <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }} className="no-print">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <label style={{ fontSize: '0.8rem', fontWeight: '800', color: '#64748b', textTransform: 'uppercase' }}>De:</label>
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            style={{
+                                backgroundColor: '#fff',
+                                padding: '8px 12px',
+                                borderRadius: '10px',
+                                border: '1px solid #e2e8f0',
+                                fontSize: '0.9rem',
+                                color: '#1e293b',
+                                fontWeight: '600',
+                                outline: 'none'
+                            }}
+                        />
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <label style={{ fontSize: '0.8rem', fontWeight: '800', color: '#64748b', textTransform: 'uppercase' }}>Até:</label>
+                        <input
+                            type="date"
+                            value={endDate}
+                            onChange={(e) => setEndDate(e.target.value)}
+                            style={{
+                                backgroundColor: '#fff',
+                                padding: '8px 12px',
+                                borderRadius: '10px',
+                                border: '1px solid #e2e8f0',
+                                fontSize: '0.9rem',
+                                color: '#1e293b',
+                                fontWeight: '600',
+                                outline: 'none'
+                            }}
+                        />
                     </div>
                 </div>
             </header>

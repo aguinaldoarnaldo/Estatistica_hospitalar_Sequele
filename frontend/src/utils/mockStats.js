@@ -1,11 +1,22 @@
-// Helper to generate random but consistent data based on ID
-export const getHospitalStats = (id) => {
-    // Seed-like behavior (simple multiplier) to keep data consistent for same ID
-    const base = (id * 123) % 1000;
+// Helper to generate random but consistent data based on ID and Date Range
+export const getHospitalStats = (id, startDate = '2024-05-01', endDate = '2024-05-31') => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    // Helper for random number in range based on id
+    // Calculate number of days in range
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+
+    // Scaling factor relative to a standard month (30 days)
+    const scale = diffDays / 30;
+
+    // Seed-like behavior using hospital ID and start period
+    const base = (id * 123 + start.getMonth() * 77 + start.getFullYear() * 5) % 1000;
+
+    // Helper for random number in range based on id/period, scaled by days
     const num = (min, max, factor = 1) => {
-        return Math.floor(min + ((base * factor) % (max - min)));
+        const val = Math.floor(min + ((base * factor) % (max - min)));
+        return Math.floor(val * scale);
     };
 
     return {

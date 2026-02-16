@@ -11,7 +11,7 @@ const HMSLayout = () => {
     const { unidades } = useUnidades();
 
     const unidadeId = user?.unidadeId || 1;
-    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0];
+    const unidade = unidades.find(u => u.id === unidadeId) || unidades[0] || { nome: 'Hospital', comuna: 'Sequele' };
 
     return (
         <div className={styles.container}>
