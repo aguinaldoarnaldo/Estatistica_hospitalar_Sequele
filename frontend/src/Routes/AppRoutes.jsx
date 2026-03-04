@@ -14,7 +14,6 @@ import ComunaPage from '../Pages/Comuna/ComunaPage';
 import FuncionariosPage from '../Pages/cadastros/FuncionariosPage';
 import PacientesPage from '../Pages/cadastros/PacientesPage';
 import GeneralDashboard from '../Pages/Dashboard/GeneralDashboard';
-import ComunaDetails from '../Pages/Comuna/ComunaDetails';
 import HospitalDashboard from '../Pages/Dashboard/HospitalDashboard';
 import Settings from '../Pages/Settings/Settings';
 import StockDashboard from '../Pages/Stock/StockDashboard';
@@ -26,22 +25,19 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        {/* Entry Point - System Selection */}
+        <Route path="/" element={<SystemSelection />} />
+
+        {/* Auth Routes */}
         <Route path="/login" element={<LoginPage />} />
         <Route path="/error" element={<ErrorPage />} />
 
-        {/* Protected Dashboard Routes */}
+        {/* Protected Dashboard Routes (Statistics) */}
         <Route element={<MainLayout />}>
           <Route path="/home" element={<GeneralDashboard />} />
-
-          {/* Sequele */}
           <Route path="/sequele/dados" element={<PagePlaceholder title="Estatísticas do Município do Sequele" />} />
           <Route path="/sequele/unidades" element={<PagePlaceholder title="Unidades Sanitárias do Sequele" />} />
-          {/* Rota dinâmica para cada comuna */}
           <Route path="/sequele/comuna/:id" element={<ComunaDetails />} />
-
-          {/* Dashboard Individual do Hospital */}
           <Route path="/sequele/unidade/:id" element={<HospitalDashboard />} />
           <Route path="/sequele/unidade/:id/stock" element={<StockDashboard />} />
           <Route path="/sequele/unidade/:id/stock/gerenciar" element={<StockManagement />} />
@@ -54,13 +50,20 @@ const AppRoutes = () => {
           <Route path="/cadastros/periodos" element={<PagePlaceholder title="Gestão de Períodos (Anos, Meses, Trimestres)" />} />
           <Route path="/cadastros/usuarios-acessos" element={<UsuariosAcessosPage />} />
           <Route path="/cadastros/funcionarios" element={<FuncionariosPage />} />
-          <Route path="/cadastros/pacientes" element={<PacientesPage />} />
-
-          {/* Dashboard Geral Extra */}
+          <Route path="/cadastros/pacientes" element={<PagePlaceholder title="Lista de Pacientes (Sistema Estatístico)" />} />
           <Route path="/dashboard-geral" element={<GeneralDashboard />} />
-
-          {/* Settings */}
           <Route path="/settings" element={<Settings />} />
+        </Route>
+
+        {/* Protected HMS Routes (Hospital Management) */}
+        <Route element={<HMSLayout />}>
+          <Route path="/hms" element={<HMSDashboard />} />
+          <Route path="/hms/pacientes/novo" element={<PatientRegistration />} />
+          <Route path="/hms/pacientes" element={<PatientList />} />
+          <Route path="/hms/consultas/novo" element={<ConsultationEntry />} />
+          <Route path="/hms/consultas" element={<ConsultationHistory />} />
+          <Route path="/hms/stock" element={<StockDashboard />} />
+          <Route path="/hms/stock/gerenciar" element={<StockManagement />} />
         </Route>
 
         {/* Fallback para 404 */}

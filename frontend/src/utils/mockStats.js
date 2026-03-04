@@ -1,11 +1,22 @@
-// Helper to generate random but consistent data based on ID
-export const getHospitalStats = (id) => {
-    // Seed-like behavior (simple multiplier) to keep data consistent for same ID
-    const base = (id * 123) % 1000;
+// Helper to generate random but consistent data based on ID and Date Range
+export const getHospitalStats = (id, startDate = '2024-05-01', endDate = '2024-05-31') => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    // Helper for random number in range based on id
+    // Calculate number of days in range
+    const diffTime = Math.abs(end - start);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) || 1;
+
+    // Scaling factor relative to a standard month (30 days)
+    const scale = diffDays / 30;
+
+    // Seed-like behavior using hospital ID and start period
+    const base = (id * 123 + start.getMonth() * 77 + start.getFullYear() * 5) % 1000;
+
+    // Helper for random number in range based on id/period, scaled by days
     const num = (min, max, factor = 1) => {
-        return Math.floor(min + ((base * factor) % (max - min)));
+        const val = Math.floor(min + ((base * factor) % (max - min)));
+        return Math.floor(val * scale);
     };
 
     return {
@@ -16,7 +27,14 @@ export const getHospitalStats = (id) => {
             cirurgias: num(50, 600, 4),
             partos: num(100, 2500, 5),
             prenatal: num(200, 1500, 6),
+            prenatal: num(200, 1500, 6),
         },
+        services: [
+            { id: 1, title: 'Medicina Geral', icon: 'FiActivity', desc: 'Atendimentos de clínica geral e triagem', stats: num(20, 100, 7) + ' Pacientes/dia' },
+            { id: 2, title: 'Pediatria', icon: 'FiTarget', desc: 'Cuidados especializados para crianças', stats: num(15, 80, 8) + ' Pacientes/dia' },
+            { id: 3, title: 'Maternidade', icon: 'FiHeart', desc: 'Partos, pré-natal e saúde da mulher', stats: num(5, 30, 9) + ' Nascimentos/dia' },
+            { id: 4, title: 'Laboratório', icon: 'FiBox', desc: 'Análises clínicas e recolha de amostras', stats: num(50, 200, 10) + ' Exames/dia' },
+        ],
         // Chart: Consultas Externas (Grouped)
         chartConsultas: [
             { name: 'Medicina', menos15: num(100, 500, 7), mais15: num(500, 2000, 8) },

@@ -4,13 +4,21 @@ import { FiActivity, FiUsers, FiClipboard, FiHeart, FiScissors, FiThermometer, F
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useUnidades } from '../../context/UnidadeContext';
 import { getHospitalStats } from '../../utils/mockStats';
+import { useClinical } from '../../context/ClinicalContext'; // Imported useClinical
 
 const HospitalDashboard = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { unidades } = useUnidades();
+  const [startDate, setStartDate] = useState(() => {
+    const d = new Date();
+    return new Date(d.getFullYear(), d.getMonth(), 1).toISOString().split('T')[0];
+  });
+  const [endDate, setEndDate] = useState(() => new Date().toISOString().split('T')[0]);
+  const { getRecordsForRange } = useClinical();
 
-  const unidade = unidades.find(u => u.id === Number(id)) || {
+  const unidadeId = Number(id);
+  const unidade = unidades.find(u => u.id === unidadeId) || {
     nome: 'Unidade Hospitalar',
     diretor: 'Não informado',
     tipo: 'Hospital',
@@ -19,37 +27,30 @@ const HospitalDashboard = () => {
 
   // Define colors based on commune (matching the map)
   const communeColors = {
-    'Sequele': {
-      bg: '#dbeafe', // Stronger Blue
-      border: '1px solid #93c5fd',
-      icon: 'var(--color-blue-medium)',
-      text: 'var(--color-blue-dark)'
-    },
-    'Kifangondo': {
-      bg: '#dcfce7', // Stronger Green
-      border: '1px solid #86efac',
-      icon: 'var(--color-green-medium)',
-      text: 'var(--color-green-dark)'
-    },
-    'Funda': {
-      bg: '#fee2e2', // Stronger Red
-      border: '1px solid #fca5a5',
-      icon: 'var(--color-red-medium)',
-      text: 'var(--color-red-dark)'
-    },
-    'Zona Baia': {
-      bg: '#fef9c3', // Stronger Yellow
-      border: '1px solid #fde047',
-      icon: '#d97706',
-      text: '#78350f'
-    }
+    'Sequele': { bg: '#dbeafe', border: '1px solid #93c5fd', icon: 'var(--color-blue-medium)', text: 'var(--color-blue-dark)' },
+    'Kifangondo': { bg: '#dcfce7', border: '1px solid #86efac', icon: 'var(--color-green-medium)', text: 'var(--color-green-dark)' },
+    'Funda': { bg: '#fee2e2', border: '1px solid #fca5a5', icon: 'var(--color-red-medium)', text: 'var(--color-red-dark)' },
+    'Zona Baia': { bg: '#fef9c3', border: '1px solid #fde047', icon: '#d97706', text: '#78350f' }
   };
 
   const currentTheme = (unidade?.comuna && communeColors[unidade.comuna])
     ? communeColors[unidade.comuna]
     : communeColors['Sequele'];
-  const stats = getHospitalStats(Number(id));
-  const { cards, chartConsultas, tableData, historyData } = stats;
+
+  const stats = getHospitalStats(unidadeId, startDate, endDate);
+  const liveStats = getRecordsForRange(unidadeId, startDate, endDate); // Use new filtering function
+
+  const combinedCards = {
+    consultas: stats.cards.consultas + (liveStats.consultas || 0),
+    urgencias: stats.cards.urgencias + (liveStats.urgencias || 0),
+    laboratorio: stats.cards.laboratorio + (liveStats.laboratorio || 0),
+    cirurgias: stats.cards.cirurgias + (liveStats.cirurgias || 0),
+    partos: stats.cards.partos + (liveStats.partos || 0),
+    prenatal: stats.cards.prenatal + (liveStats.prenatal || 0),
+  };
+
+
+  const { chartConsultas, tableData, historyData } = stats;
 
   // Mock Data for "Consultas por Especialidade" (Table)
   const specialityData = [
@@ -106,9 +107,42 @@ const HospitalDashboard = () => {
           <FiArrowLeft /> Voltar para Comuna
         </button>
 
-        <div style={{ display: 'flex', gap: '15px' }}>
-          <div style={{ backgroundColor: 'var(--color-white)', padding: '10px 20px', borderRadius: '6px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.9rem', color: 'var(--color-blue-dark)', cursor: 'pointer' }}>
-            Janeiro (2024) <FiChevronDown />
+        <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--color-gray-dark)' }}>DE:</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              style={{
+                backgroundColor: 'var(--color-white)',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                color: 'var(--color-blue-dark)',
+                border: 'none',
+                outline: 'none'
+              }}
+            />
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <label style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--color-gray-dark)' }}>ATÉ:</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              style={{
+                backgroundColor: 'var(--color-white)',
+                padding: '8px 12px',
+                borderRadius: '6px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+                fontSize: '0.9rem',
+                color: 'var(--color-blue-dark)',
+                border: 'none',
+                outline: 'none'
+              }}
+            />
           </div>
           <button
             onClick={() => window.print()}
@@ -127,12 +161,12 @@ const HospitalDashboard = () => {
 
       {/* Cards Row */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', marginBottom: '30px' }}>
-        <StatsCard title="Consultas Externas" icon={<FiClipboard />} value={cards.consultas} />
-        <StatsCard title="Consultas de Banco de Urgência" icon={<FiActivity />} value={cards.urgencias} />
-        <StatsCard title="Exames de Laboratório" icon={<FiThermometer />} value={cards.laboratorio} />
-        <StatsCard title="Cirurgias" icon={<FiScissors />} value={cards.cirurgias} />
-        <StatsCard title="Partos" icon={<FiUsers />} value={cards.partos} />
-        <StatsCard title="Consultas Pré-natais" icon={<FiHeart />} value={cards.prenatal} />
+        <StatsCard title="Consultas Externas" icon={<FiClipboard />} value={combinedCards.consultas} />
+        <StatsCard title="Consultas de Banco de Urgência" icon={<FiActivity />} value={combinedCards.urgencias} />
+        <StatsCard title="Exames de Laboratório" icon={<FiThermometer />} value={combinedCards.laboratorio} />
+        <StatsCard title="Cirurgias" icon={<FiScissors />} value={combinedCards.cirurgias} />
+        <StatsCard title="Partos" icon={<FiUsers />} value={combinedCards.partos} />
+        <StatsCard title="Consultas Pré-natais" icon={<FiHeart />} value={combinedCards.prenatal} />
       </div>
 
       {/* Charts & Table Section */}
