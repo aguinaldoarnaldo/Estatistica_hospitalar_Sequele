@@ -58,7 +58,9 @@ const Sidebar = () => {
             children: [
               { title: 'Dashboard', path: `/sequele/unidade/${u.id}`, icon: <FiActivity /> },
               { title: 'Stock Geral', path: `/sequele/unidade/${u.id}/stock`, icon: <FiBox /> },
-              { title: 'Gerenciar Prod.', path: `/sequele/unidade/${u.id}/stock/gerenciar`, icon: <FiSettings /> }
+              { title: 'Gerenciar Prod.', path: `/sequele/unidade/${u.id}/stock/gerenciar`, icon: <FiSettings /> },
+              { title: 'Movimentações', path: `/sequele/unidade/${u.id}/stock/movimentacoes`, icon: <FiClipboard /> },
+              { title: 'Fornecedores', path: `/sequele/unidade/${u.id}/stock/fornecedores`, icon: <FiTruck /> }
             ]
           }))
         ]

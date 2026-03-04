@@ -11,7 +11,6 @@ import UnidadesPage from '../Pages/cadastros/UnidadesPage';
 import UsuariosAcessosPage from '../Pages/cadastros/UsuariosAcessosPage';
 import PagePlaceholder from '../Pages/PagePlaceholder';
 import ComunaPage from '../Pages/Comuna/ComunaPage';
-import ComunaDetails from '../Pages/Comuna/ComunaDetails';
 import FuncionariosPage from '../Pages/cadastros/FuncionariosPage';
 import PacientesPage from '../Pages/cadastros/PacientesPage';
 import GeneralDashboard from '../Pages/Dashboard/GeneralDashboard';
@@ -19,13 +18,8 @@ import HospitalDashboard from '../Pages/Dashboard/HospitalDashboard';
 import Settings from '../Pages/Settings/Settings';
 import StockDashboard from '../Pages/Stock/StockDashboard';
 import StockManagement from '../Pages/Stock/StockManagement';
-import HMSDashboard from '../Pages/HMS/HMSDashboard';
-import PatientRegistration from '../Pages/HMS/PatientRegistration';
-import PatientList from '../Pages/HMS/PatientList'; // Added PatientList import
-import ConsultationEntry from '../Pages/HMS/ConsultationEntry';
-import ConsultationHistory from '../Pages/HMS/ConsultationHistory'; // Added ConsultationHistory import
-import HMSLayout from '../Components/Layout/HMSLayout';
-import SystemSelection from '../Pages/SystemSelection/SystemSelection';
+import StockTransactions from '../Pages/Stock/StockTransactions';
+import StockSuppliers from '../Pages/Stock/StockSuppliers';
 
 const AppRoutes = () => {
   return (
@@ -47,6 +41,10 @@ const AppRoutes = () => {
           <Route path="/sequele/unidade/:id" element={<HospitalDashboard />} />
           <Route path="/sequele/unidade/:id/stock" element={<StockDashboard />} />
           <Route path="/sequele/unidade/:id/stock/gerenciar" element={<StockManagement />} />
+          <Route path="/sequele/unidade/:id/stock/movimentacoes" element={<StockTransactions />} />
+          <Route path="/sequele/unidade/:id/stock/fornecedores" element={<StockSuppliers />} />
+
+          {/* Cadastros */}
           <Route path="/cadastros/comunas" element={<ComunasPage />} />
           <Route path="/cadastros/unidades" element={<UnidadesPage />} />
           <Route path="/cadastros/periodos" element={<PagePlaceholder title="Gestão de Períodos (Anos, Meses, Trimestres)" />} />
